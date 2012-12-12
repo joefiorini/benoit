@@ -15,6 +15,10 @@ rescue LoadError
   raise
 end
 
+require_relative "./build_notifiers/file_built_notifier"
+require_relative "./build_notifiers/phase_notifier"
+require_relative "./build_notifiers/summary_notifier"
+
 class RakePipelineInvoke
     attr_reader :assetfile_path, :output_dir, :tmp_cache_dir, :project
 
@@ -25,40 +29,11 @@ class RakePipelineInvoke
         @project = build_project!
     end
 
-    def filter_phases
-      {
-        preparing: [
-          Staticly::Pipeline::Filters::MoveToRootFilter,
-          Staticly::Pipeline::Filters::FrontMatterFilter
-        ],
-        compiling: [
-          Staticly::Pipeline::Filters::MarkdownFilter,
-          Staticly::Pipeline::Filters::ContentPageFilter,
-          Staticly::Pipeline::Filters::SassFilter,
-          Staticly::Pipeline::Filters::CadenzaFilter
-        ],
-        finishing: [
-          Rake::Pipeline::ConcatFilter,
-          Rake::Pipeline::PipelineFinalizingFilter
-        ]
-      }
-    end
-
     def invoke
-      current_phase = nil
         project.pipelines.each do |pipeline|
-          pipeline.register_hook :after_task_invocation do |task|
-            puts task.name
-          end
-          pipeline.register_hook :before_filter_invocation do |filter|
-            if filter_phases[:preparing].include? filter.class
-              puts "preparing"
-            elsif filter_phases[:compiling].include? filter.class
-              puts "compiling"
-            elsif filter_phases[:finishing].include? filter.class
-              puts "finishing"
-            end
-          end
+          pipeline.register_invocation_hook :before_pipline, BuildNotifiers::SummaryNotifier
+          pipeline.register_invocation_hook :after_task, BuildNotifiers::FileBuiltNotifier
+          pipeline.register_invocation_hook :before_filter, BuildNotifiers::PhaseNotifier
         end
         project.invoke
     end
