@@ -54,6 +54,6 @@ begin
   pipeline = RakePipelineInvoke.new(ARGV[0], ARGV[1], ARGV[2])
   pipeline.invoke
 rescue Staticly::CompilerError => ex
-  puts $!.message
-  puts "error: #{ex.output}"
+  output = { message: ex.message, path: ex.file_path, line_no: ex.line, original_error: ex.output }
+  $stderr.puts output.to_json
 end
