@@ -16,7 +16,7 @@ app_code_dir = File.join(app_root, "Staticly")
 test_dir = File.join(app_root, "test site")
 output_dir = File.join(test_dir, "tmp-output")
 cache_dir = File.join(test_dir, "tmp-cache")
-site_dir = File.join(test_dir, "site")
+site_dir = ARGV[0] || File.join(test_dir, "site")
 ruby_dir = File.join(app_root, "vendor/ruby-1.9.3")
 vendor_dir = File.join(app_root, "vendor")
 
