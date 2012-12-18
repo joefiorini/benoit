@@ -1,3 +1,5 @@
+$: << File.expand_path(File.dirname(__FILE__))
+
 begin
   require 'rake'
   require 'rake-pipeline'
@@ -10,6 +12,7 @@ begin
   require 'FindsLayoutsForTemplate'
   require 'NormalizesPathToTemplate'
   require 'staticly-pipeline-filters'
+  require 'staticly/logger'
 rescue LoadError
   $stderr.puts $:
   raise
