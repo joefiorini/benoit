@@ -58,5 +58,8 @@ begin
   pipeline.invoke
 rescue Staticly::CompilerError => ex
   output = { message: ex.message, path: ex.file_path, line_no: ex.line, original_error: ex.output }
+  Staticly::Logger.report_error(ex.output)
   $stderr.puts output.to_json
+rescue StandardError => ex
+  Staticly::Logger.report_error(ex)
 end

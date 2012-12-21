@@ -3,6 +3,12 @@ require 'syslog'
 module Staticly
   class Logger
 
+    def self.report_error(ex)
+      error ex.message
+      error ex.backtrace.join("\n")
+      error(ENV.map { |k,v| "#{k}=#{v}" }.join("\n"))
+    end
+
     def self.critical(*msg)
       logger.crit(*msg)
     end
