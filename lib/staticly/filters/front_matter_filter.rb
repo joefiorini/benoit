@@ -1,6 +1,8 @@
 module Staticly::Filters
   class FrontMatterFilter < Rake::Pipeline::Filter
 
+    include Staticly
+
     def generate_output(inputs, output)
       inputs.each do |input|
 
