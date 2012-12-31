@@ -3,6 +3,8 @@ require 'cadenza'
 class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
     attr_reader :options
 
+    include Staticly
+
     def initialize
         super
         @page_layouts = {}
@@ -10,7 +12,7 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
     def generate_output(inputs, output)
 
-        context = SiteContext.from_hash(FrontMatterStore)
+        context = Staticly::SiteContext.from_hash(FrontMatterStore)
 
         inputs.each do |input|
             load_paths = [input.root, Dir.pwd, "#{Dir.pwd}/_layouts"]
@@ -23,7 +25,7 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
             context_hash = {
                 "site" => context,
-                "page" => PageContext.from_hash(FrontMatterStore[input.path] || {})
+                "page" => Staticly::PageContext.from_hash(FrontMatterStore[input.path] || {})
             }
 
             begin

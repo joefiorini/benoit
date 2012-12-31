@@ -23,8 +23,6 @@ require 'rubygems'
 
 assetfile_dir = File.join(app_code_dir, "Assetfile")
 
-require 'Logging'
-require 'Compilers'
 ENV["SASSROOT"] = File.join(vendor_dir, "sass")
 ENV["RUBYPATH"] = ruby_dir
 

@@ -14,15 +14,7 @@ begin
   require 'psych'
   require 'rake'
   require 'rake-pipeline'
-  require 'SiteContext'
-  require 'PageContext'
-  require 'FrontMatterParser'
-  require 'FrontMatterStore'
-  require 'Logging'
-  require 'Compilers'
-  require 'FindsLayoutsForTemplate'
-  require 'NormalizesPathToTemplate'
-  require 'staticly/logger'
+  require 'staticly'
 rescue LoadError => ex
   output = { message: ex.message, trace: ex.backtrace, load_path: $:.to_json }
   $stderr.puts output
