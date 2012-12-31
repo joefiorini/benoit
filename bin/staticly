@@ -4,7 +4,7 @@ $: << File.expand_path("../bundle", __FILE__)
 
 require 'bundler/setup'
 
-libraries = ["rake", "json", "cadenza", "multi_json", "redcarpet", "compass", "frontmatter", "staticly-pipeline-filters", "rake-pipeline", "chunky_png", "rake-hooks"]
+libraries = ["staticly-pipeline-filters", "rake-pipeline"]
 
 def verbose?
   ARGV.any? do |arg|
