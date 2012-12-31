@@ -4,8 +4,6 @@ $: << File.expand_path("../bundle", __FILE__)
 
 require 'bundler/setup'
 
-libraries = ["rake-pipeline"]
-
 def verbose?
   ARGV.any? do |arg|
   end
@@ -24,23 +22,10 @@ site_dir = ARGV[0] || File.join(test_dir, "site")
 ruby_dir = File.join(app_root, "vendor/ruby-1.9.3")
 vendor_dir = File.join(app_root, "vendor")
 
-rubyopts =
-  libraries.map do |lib|
-    path = File.join(vendor_dir, lib)
-    File.join(path, "lib").tap do |l|
-      $: << l
-      puts "adding #{l} to load path" if verbose?
-    end
-  end
-
 $: << app_code_dir
 require 'rubygems'
 
-rubyopts = rubyopts.join(" ")
-
 assetfile_dir = File.join(app_code_dir, "Assetfile")
-
-puts "RUBYOPT=#{rubyopts}" if verbose?
 
 require 'Logging'
 require 'Compilers'

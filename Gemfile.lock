@@ -4,6 +4,16 @@ GIT
   specs:
     frontmatter (0.0.1)
 
+GIT
+  remote: git://github.com/joefiorini/rake-pipeline.git
+  revision: 349c4a87988737810c3c193ab7c26dfe07104a36
+  branch: staticly
+  specs:
+    rake-pipeline (0.8.0)
+      json
+      rake (~> 0.9.0)
+      thor
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -18,9 +28,10 @@ GEM
     gli (2.5.3)
     json (1.7.6)
     multi_json (1.5.0)
-    rake (10.0.3)
+    rake (0.9.6)
     redcarpet (2.2.2)
     sass (3.2.4)
+    thor (0.16.0)
 
 PLATFORMS
   ruby
@@ -33,6 +44,7 @@ DEPENDENCIES
   gli
   json
   multi_json
-  rake
+  rake (~> 0.9.0)
+  rake-pipeline!
   redcarpet
   sass
