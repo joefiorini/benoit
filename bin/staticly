@@ -1,6 +1,10 @@
-#!vendor/ruby-1.9.3/bin/ruby
+#!/usr/bin/env ruby
 
-libraries = ["rake", "json", "cadenza", "multi_json", "redcarpet", "compass", "sass", "frontmatter", "staticly-pipeline-filters", "rake-pipeline", "chunky_png", "rake-hooks"]
+$: << File.expand_path("../bundle", __FILE__)
+
+require 'bundler/setup'
+
+libraries = ["rake", "json", "cadenza", "multi_json", "redcarpet", "compass", "frontmatter", "staticly-pipeline-filters", "rake-pipeline", "chunky_png", "rake-hooks"]
 
 def verbose?
   ARGV.any? do |arg|
