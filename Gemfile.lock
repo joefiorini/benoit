@@ -20,10 +20,10 @@ GEM
     cadenza (0.8.0)
       multi_json (>= 1.3.0)
     chunky_png (1.2.6)
-    compass (0.12.2)
+    compass (0.13.alpha.0)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
-      sass (~> 3.1)
+      sass (~> 3.2.0.alpha.93)
     fssm (0.2.9)
     gli (2.5.3)
     json (1.7.6)
@@ -39,7 +39,7 @@ PLATFORMS
 DEPENDENCIES
   cadenza
   chunky_png
-  compass
+  compass (~> 0.13.alpha)
   frontmatter!
   gli
   json

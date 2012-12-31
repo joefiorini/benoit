@@ -14,7 +14,6 @@ module Staticly
     end
 
     def self.error(*msg)
-      puts msg.inspect
       logger.err(*msg)
     end
 

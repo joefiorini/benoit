@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-$: << File.expand_path("../bundle", __FILE__)
-
-require 'bundler/setup'
-
 def verbose?
   ARGV.any? do |arg|
   end
