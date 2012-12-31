@@ -1,5 +1,5 @@
 module BuildNotifiers
-  include Staticly::Pipeline::Filters
+  include Staticly::Filters
 
   FILTER_PHASES = {
     preparing: [MoveToRootFilter, FrontMatterFilter],

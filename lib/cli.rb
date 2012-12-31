@@ -11,12 +11,13 @@ begin
   require 'Compilers'
   require 'FindsLayoutsForTemplate'
   require 'NormalizesPathToTemplate'
-  require 'staticly-pipeline-filters'
   require 'staticly/logger'
 rescue LoadError
   $stderr.puts $:
   raise
 end
+
+require 'staticly/filters'
 
 require_relative "./build_notifiers/file_built_notifier"
 require_relative "./build_notifiers/phase_notifier"
