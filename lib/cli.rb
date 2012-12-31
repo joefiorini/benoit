@@ -59,7 +59,8 @@ class RakePipelineInvoke
 end
 
 begin
-  pipeline = RakePipelineInvoke.new(ARGV[0], ARGV[1], ARGV[2])
+  assetfile_path = File.join(File.expand_path("../../", __FILE__), "Assetfile")
+  pipeline = RakePipelineInvoke.new(assetfile_path, ARGV[0], ARGV[1])
   pipeline.invoke
 rescue Staticly::CompilerError => ex
   output = { message: ex.message, path: ex.file_path, line_no: ex.line, original_error: ex.output }

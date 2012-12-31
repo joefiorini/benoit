@@ -1,0 +1,28 @@
+input Dir.pwd do
+
+  reject "_*"
+
+  match "_posts/**/*" do
+    filter Staticly::Filters::MoveToRootFilter
+  end
+
+  match "**/*{.markdown,.md,.mkdown,.mdown}" do
+    filter Staticly::Filters::FrontMatterFilter
+    filter Staticly::Filters::MarkdownFilter
+    filter Staticly::Filters::ContentPageFilter
+  end
+
+  match "*.scss" do
+    filter Staticly::Filters::SassFilter, additional_load_paths: ["styles", "css"]
+  end
+
+  match "**/*.html" do
+    filter Staticly::Filters::CadenzaFilter
+  end
+
+  match "**/*" do
+      copy
+  end
+
+end
+

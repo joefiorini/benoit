@@ -21,14 +21,11 @@ vendor_dir = File.join(app_root, "vendor")
 $: << app_code_dir
 require 'rubygems'
 
-assetfile_dir = File.join(app_code_dir, "Assetfile")
-
 ENV["SASSROOT"] = File.join(vendor_dir, "sass")
 ENV["RUBYPATH"] = ruby_dir
 
 Dir.chdir site_dir do
-  ARGV[0] = assetfile_dir
-  ARGV[1] = output_dir
-  ARGV[2] = cache_dir
+  ARGV[0] = output_dir
+  ARGV[1] = cache_dir
   load File.join(cli_root, "lib/cli.rb")
 end
