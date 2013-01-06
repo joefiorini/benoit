@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby
-$: << File.expand_path("../../bundler", __FILE__)
-$: << File.expand_path("../../lib", __FILE__)
+$:.unshift File.expand_path("../../bundle", __FILE__)
+$:.unshift File.expand_path("../../lib", __FILE__)
 
-require 'bundler/setup'
+# Force bundler to load standalone bundle
+# even if it's already loaded
+load 'bundler/setup.rb'
+
 require 'staticly'
 require 'gli'
 

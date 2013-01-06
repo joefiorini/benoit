@@ -6,6 +6,7 @@
 #  Copyright 2012 densitypop. All rights reserved.
 #
 
+require 'psych'
 require 'frontmatter'
 
 module Staticly
