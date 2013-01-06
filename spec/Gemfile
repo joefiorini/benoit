@@ -1,0 +1,7 @@
+source :rubygems
+
+gem 'rspec'
+gem 'turnip', path: "~/Projects/oss/turnip"
+gem 'aruba'
+gem 'pry'
+gem 'pry-nav'
