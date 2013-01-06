@@ -1,6 +1,5 @@
 Feature: Version Flag
 
-  @backlog
   Scenario: --version flag
-    When I run with the "--version" flag
+    When I run `staticly --version`
     Then I see the current Staticly version

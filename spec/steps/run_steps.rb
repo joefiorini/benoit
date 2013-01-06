@@ -1,12 +1,14 @@
 module RunSteps
   extend ::Turnip::DSL
 
-  step "I run with the :flag flag" do |flag|
-    pending "implement"
+  step "I run :cmd" do |cmd|
+    run_simple(unescape(cmd), false)
   end
 
-  step "I see the current Staticly version" do
-    pending
+  placeholder :cmd do
+    match /`([^`]*)`/ do |cmd|
+      cmd
+    end
   end
 
 end

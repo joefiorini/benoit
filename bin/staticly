@@ -11,6 +11,8 @@ require 'gli'
 
 include GLI::App
 
+default_command :noop
+
 program_desc 'Describe your application here'
 
 version Staticly::VERSION
@@ -69,6 +71,14 @@ arg_name 'Describe arguments to rebuild here'
 command :rebuild do |c|
   c.action do |global_options,options,args|
     puts "rebuild command ran"
+  end
+end
+
+command :noop do |c|
+  c.action do |global_options,options,args|
+    if global_options[:version]
+      puts Staticly::VERSION
+    end
   end
 end
 
