@@ -16,6 +16,14 @@ module RunSteps
     write_file(file_name, "")
   end
 
+  step "a file named :file_name with content:" do |file_name, content|
+    write_file(file_name, content)
+  end
+
+  step "the file :file_name should contain:" do |file_name, partial_content|
+    check_file_content(file_name, partial_content, true)
+  end
+
   step "I cd to :directory" do |directory|
     cd directory
   end
