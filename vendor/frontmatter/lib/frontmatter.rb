@@ -80,15 +80,13 @@ module FrontMatter
 
     if md = text.match(REGEX)
       front_matter['content'] = md.post_match
-      begin
-        front_matter.merge!(PARSER.load(md[:metadata]))
-      rescue => e
-        puts "YAML Exception reading #{name}: #{e.message}"
-      end
+      front_matter.merge!(PARSER.load(md[:metadata]))
     end
 
     front_matter
 
+  rescue => e
+    puts "YAML Exception reading #{name}: #{e.message}"
   end
 
 end
