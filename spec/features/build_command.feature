@@ -7,9 +7,9 @@ Feature: staticly build
     When I run `staticly build`
     Then a directory named "_build" should exist
 
-  Scenario: Defaults cache path to "./tmp"
+  Scenario: Defaults cache path to "~/.staticly/tmpcache/{site}"
     When I run `staticly build`
-    Then a directory named "tmp" should exist
+    Then a directory named "~/.staticly/tmpcache/test" should exist
 
   @backlog
   Scenario: Override default output path

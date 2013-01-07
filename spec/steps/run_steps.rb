@@ -6,6 +6,9 @@ module RunSteps
   end
 
   step "a directory named :directory should exist" do |directory|
+    if directory =~ /^~/
+      directory = File.expand_path(directory)
+    end
     check_directory_presence([directory], true)
   end
 
