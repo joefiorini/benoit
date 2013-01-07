@@ -1,13 +1,15 @@
-GIT
-  remote: git://github.com/docunext/frontmatter.git
-  revision: 3358085bb46b6f981f15c267241af2e36f6ecf23
+PATH
+  remote: .
+  specs:
+    staticly (1.0.0.alpha.2)
+
+PATH
+  remote: vendor/frontmatter
   specs:
     frontmatter (0.0.1)
 
-GIT
-  remote: git://github.com/joefiorini/rake-pipeline.git
-  revision: 349c4a87988737810c3c193ab7c26dfe07104a36
-  branch: staticly
+PATH
+  remote: vendor/rake-pipeline
   specs:
     rake-pipeline (0.8.0)
       json
@@ -48,3 +50,4 @@ DEPENDENCIES
   rake-pipeline!
   redcarpet
   sass
+  staticly!
