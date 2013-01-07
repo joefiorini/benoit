@@ -17,7 +17,7 @@ module Staticly::Filters
             template = <<-EOC
     {% extends '#{layout}' %}
   EOC
-            FrontMatterStore.set_content_for_page! input.path, input.read
+            Staticly::FrontMatterStore.set_content_for_page! input.path, input.read
 
             output.write(template)
 

@@ -14,7 +14,7 @@ module Staticly::Utils
     class FindsLayoutsForTemplate
 
         FrontMatterLookupStrategy = ->(template_path) {
-              metadata = FrontMatterStore[template_path]
+              metadata = Staticly::FrontMatterStore[template_path]
               return unless metadata
               parent_template = metadata["layout"] || metadata["template"]
               parent_template
