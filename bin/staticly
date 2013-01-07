@@ -46,8 +46,9 @@ command :build do |c|
     # Your command logic here
     # staticly build --app-mode --input-path ~/Sites/static.ly --output-path ../test\ site/tmp-output --cache-path ../test\ site/tmp-cache
 
+    site_path = global_options[:"input-path"] || Dir.pwd
     assetfile_path = File.join(File.expand_path("../../", __FILE__), "Assetfile")
-    Dir.chdir(global_options[:"input-path"]) do
+    Dir.chdir(site_path) do
       project = Staticly::PipelineProject.new(assetfile_path, global_options[:"output-path"], global_options[:"cache-path"])
       project.invoke
     end

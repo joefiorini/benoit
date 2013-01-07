@@ -4,10 +4,10 @@ module Staticly
   class PipelineProject
     attr_reader :assetfile_path, :output_dir, :tmp_cache_dir, :project
 
-    def initialize(assetfile_path, output_dir, tmp_cache_dir)
+    def initialize(assetfile_path, output_dir=nil, tmp_cache_dir=nil)
         @assetfile_path = assetfile_path
-        @output_dir = output_dir
-        @tmp_cache_dir = tmp_cache_dir
+        @output_dir = output_dir || default_output_dir
+        @tmp_cache_dir = tmp_cache_dir || default_cache_dir
         @project = build_project!
     end
 
@@ -21,6 +21,14 @@ module Staticly
     end
 
     private
+
+    def default_output_dir
+      File.expand_path(File.join(Dir.pwd, "_build"))
+    end
+
+    def default_cache_dir
+      File.expand_path(File.join(Dir.pwd, "tmp"))
+    end
 
     def build_project!
         output, tmp = [output_dir, tmp_cache_dir]

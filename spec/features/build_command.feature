@@ -1,15 +1,12 @@
 Feature: staticly build
 
   Background:
-    Given an empty site named "test"
-    When I cd to the site
+    Given a site named "test"
 
-  @backlog
   Scenario: Defaults output path to "./_build"
     When I run `staticly build`
     Then a directory named "_build" should exist
 
-  @backlog
   Scenario: Defaults cache path to "./tmp"
     When I run `staticly build`
     Then a directory named "tmp" should exist
