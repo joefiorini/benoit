@@ -12,5 +12,6 @@ group :release do
   gem "redcarpet"
   gem "compass", "~> 0.13.alpha"
   gem "chunky_png"
+  gem "mbj-inflector"
   gemspec
 end

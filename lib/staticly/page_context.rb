@@ -42,12 +42,7 @@ module Staticly
       private
 
       def setFileType!(attrs)
-          attrs["_type"] =
-              if attrs["type"] == "post"
-                  :posts
-              else
-                  :pages
-              end
+          attrs["_type"] = attrs["type"] || "page"
       end
 
       def methodsFromAttrs(attrs)

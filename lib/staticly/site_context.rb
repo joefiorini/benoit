@@ -7,6 +7,7 @@
 #
 
 require 'json'
+require 'inflector'
 
 module Staticly
   class SiteContext
@@ -24,7 +25,7 @@ module Staticly
 
       def pages_grouped_by_type
           @pages.group_by do |page|
-              page._type
+            Inflector.pluralize(page._type)
           end
       end
 

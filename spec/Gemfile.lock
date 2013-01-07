@@ -26,6 +26,9 @@ GEM
       slop (~> 3.3.1)
     pry-nav (0.2.3)
       pry (~> 0.9.10)
+    pry-remote (0.1.6)
+      pry (~> 0.9)
+      slop (~> 3.0)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
@@ -48,6 +51,7 @@ DEPENDENCIES
   aruba
   pry
   pry-nav
+  pry-remote
   rspec
   turnip
   turnip-kanban

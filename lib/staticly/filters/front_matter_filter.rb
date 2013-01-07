@@ -21,10 +21,6 @@ module Staticly::Filters
 
         front_matter["_original_path"] = input.path
 
-        if type = type_from_input(output.original_inputs.first)
-            front_matter["type"] = type
-        end
-
         FrontMatterStore.save final_output.path, front_matter
 
         output.write front_matter['content']
@@ -40,9 +36,6 @@ module Staticly::Filters
         end
     end
 
-    def type_from_input(input)
-        if input.path =~ /_post/ then "post" else nil end
-    end
 
   end
 end
