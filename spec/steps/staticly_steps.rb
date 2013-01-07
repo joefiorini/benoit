@@ -12,6 +12,7 @@ module StaticlySteps
   end
 
   step "the output file :file_name should contain:" do |file_name, content|
+    assert_success true
     file_name = File.join("_build", file_name)
     step 'the file "%s" should contain:' % file_name, content
   end

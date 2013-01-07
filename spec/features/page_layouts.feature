@@ -21,26 +21,3 @@ Feature: Page Layouts
       boo
     </section>
     """
-      
-  @backlog
-  Scenario: Loads content from markdown files
-    Given a site named "test"
-    And a file named "index.html" with content:
-    """
-    {% for post in site.posts %}
-      {{ post.content }}
-    {% endfor %}
-    """
-    And a file named "post.markdown" exists with content:
-    """
-    ---
-    type: post
-    ---
-
-    This is the content
-    """
-    When I run `staticly build`
-    Then the output file "index.html" should contain:
-    """
-    This is the content
-    """
