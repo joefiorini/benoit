@@ -1,6 +1,6 @@
 module FrontMatter
 
-  REGEX    = /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
+  REGEX    = /^(?<metadata>---\s*\n.*?\n?)^(---\s*$\n?)/m
   INSPECT  = 13
   PARSER   = Psych
   REQUIRED = [:title, :date, :content]
@@ -78,10 +78,10 @@ module FrontMatter
 
     front_matter = Hash.new 
 
-    if text =~ REGEX 
-      front_matter['content'] = $POSTMATCH
+    if md = text.match(REGEX)
+      front_matter['content'] = md.post_match
       begin
-        front_matter.merge!(PARSER.load($1))
+        front_matter.merge!(PARSER.load(md[:metadata]))
       rescue => e
         puts "YAML Exception reading #{name}: #{e.message}"
       end
