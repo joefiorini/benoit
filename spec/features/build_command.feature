@@ -21,14 +21,13 @@ Feature: staticly build
     When I run `staticly build --cache-path _cache`
     Then an empty directory named "_cache" should exist
 
-  @backlog
   Scenario: Builds a single file
-    Given an input file named "index.html" with content:
+    Given a file named "index.html" with content:
     """
     <h1>Hello World</h1>
     """
     When I run `staticly build`
-    Then an output file named "index.html" should exist with content:
+    Then the output file "index.html" should contain:
     """
     <h1>Hello World</h1>
     """
