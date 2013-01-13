@@ -1,5 +1,4 @@
 .bundle
 bundle/ruby/1.9.1/gems/compass-*/examples
 bundle/ruby/1.9.1/gems/compass-*/test
-bin
 tmp
