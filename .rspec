@@ -1,1 +1,1 @@
--r turnip/rspec -I spec/support
+-I ./lib/staticly
