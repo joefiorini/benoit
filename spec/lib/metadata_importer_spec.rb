@@ -133,7 +133,15 @@ describe Staticly::PageMetadata::Importer do
 
   end
 
-  describe "expiration" do
+  describe "expiring the entire collection" do
+
+    it "removes all memoized collections"
+
+  end
+
+  describe "expiring a single page" do
+
+    it "removes the memoized collection for that page"
   end
 
 end
