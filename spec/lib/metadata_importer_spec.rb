@@ -27,9 +27,10 @@ end
 
 RSpec::Matchers.define :contain_page do |expected|
   match do |actual|
-    key = Staticly::PageMetadata::Importer.send(:memoized_key, expected)
-    expect(actual).to have_key(key)
-    expect(actual.fetch(key)).to eq(@metadata) if @metadata
+    page_name = expected
+    expect(actual).to have_page(page_name)
+    value = actual[page_name]
+    expect(value).to eq(@metadata) if @metadata
   end
   chain :with_metadata do |metadata|
     @metadata = metadata
@@ -133,37 +134,38 @@ describe Staticly::PageMetadata::Importer do
 
   end
 
-  describe "converting metadata to/from json" do
+end
 
-    let(:index_html_metadata) do
-      { "title" => "blah", "attr1" => "val1" }
-    end
+describe Staticly::PageMetadata::JsonConverter do
 
-    let(:about_html_metadata) do
-      { "title" => "about", "attr2" => "val2" }
-    end
+  let(:index_html_metadata) do
+    { "title" => "blah", "attr1" => "val1" }
+  end
 
-    let(:existing_metadata) do
-      {
-        "__index_html_metadata" => index_html_metadata,
-        "__about_html_metadata" => about_html_metadata
-      }
-    end
+  let(:about_html_metadata) do
+    { "title" => "about", "attr2" => "val2" }
+  end
 
-    let(:json) { existing_metadata.to_json }
+  let(:existing_metadata) do
+    {
+      "__index_html_metadata" => index_html_metadata,
+      "__about_html_metadata" => about_html_metadata
+    }
+  end
 
-    it "loads all metadata into cache" do
-      container = described_class.import_from_json(json)
-      expect(container).to contain_page("index.html").with_metadata(index_html_metadata)
-      expect(container).to contain_page("about.html").with_metadata(about_html_metadata)
-    end
+  let(:json) { existing_metadata.to_json }
 
-    it "exports all metadata currently in the cache" do
-      described_class.import_from_json(json)
-      new_json = described_class.export_to_json
-      expect(new_json).to eq(json)
-    end
+  it "loads all metadata into cache" do
+    described_class.import!(json)
+    store = Staticly::PageMetadata::Importer
+    expect(store).to contain_page("index.html").with_metadata(index_html_metadata)
+    expect(store).to contain_page("about.html").with_metadata(about_html_metadata)
+  end
 
+  it "exports all metadata currently in the cache" do
+    described_class.import!(json)
+    new_json = described_class.export
+    expect(new_json).to eq(json)
   end
 
 end
