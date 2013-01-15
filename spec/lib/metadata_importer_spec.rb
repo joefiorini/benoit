@@ -36,23 +36,35 @@ end
 describe Staticly::PageMetadata::Importer do
   include FileHelpers
 
+  let(:content) do
+    <<-EOF.unindent
+    ---
+    title: blah
+    attr1: val1
+    attr2: val2
+    ---
+
+    THE CONTENT
+    EOF
+  end
+
+  let(:new_content) do
+    <<-EOF.unindent
+    ---
+    key1: blah1
+    key2: blah2
+    ---
+
+    THE CONTENT
+    EOF
+  end
+
+  let(:write_page) { write_file(input.path, input.read) }
+  let(:write_new_page) { write_file(input.path, new_content) }
+
+  let(:input) { InputWrapper.new("tmp/index.html", content) }
+
   describe "the metadata hash" do
-
-    let(:content) do
-      <<-EOF.unindent
-      ---
-      title: blah
-      attr1: val1
-      attr2: val2
-      ---
-
-      THE CONTENT
-      EOF
-    end
-
-    let(:input) { InputWrapper.new("tmp/index.html", content) }
-
-    let(:write_page) { write_file(input.path, input.read) }
 
     subject { write_page; described_class.import_from_page(input) }
 
@@ -72,10 +84,6 @@ describe Staticly::PageMetadata::Importer do
 
     let(:content) { "THE CONTENT" }
 
-    let(:input) { InputWrapper.new("tmp/index.html", content) }
-
-    let(:write_page) { write_file(input.path, input.read) }
-
     subject { write_page; described_class.import_from_page(input) }
 
 
@@ -86,34 +94,6 @@ describe Staticly::PageMetadata::Importer do
   end
 
   describe "memoizing" do
-
-    let(:content) do
-      <<-EOF.unindent
-      ---
-      title: blah
-      attr1: val1
-      attr2: val2
-      ---
-
-      THE CONTENT
-      EOF
-    end
-
-    let(:new_content) do
-      <<-EOF.unindent
-      ---
-      key1: blah1
-      key2: blah2
-      ---
-
-      THE CONTENT
-        EOF
-    end
-
-    let(:input) { InputWrapper.new("tmp/index.html", content) }
-
-    let(:write_page) { write_file(input.path, input.read) }
-    let(:write_new_page) { write_file(input.path, new_content) }
 
     subject { write_page; described_class.import_from_page(input) }
 
@@ -135,13 +115,26 @@ describe Staticly::PageMetadata::Importer do
 
   describe "expiring the entire collection" do
 
-    it "removes all memoized collections"
+
+    subject { write_page; described_class.import_from_page(input) }
+
+    it "clears memoized keys, allowing new keys to be written" do
+      subject
+      described_class.expire!
+      write_new_page
+      new_input = InputWrapper.new("tmp/index.html", new_content)
+      new_metadata = described_class.import_from_page(new_input)
+      expect(new_metadata).to have_metadata("key1").with_value("blah1")
+      expect(new_metadata).to have_metadata("key2").with_value("blah2")
+    end
 
   end
 
-  describe "expiring a single page" do
+  describe "enhancing metadata" do
 
-    it "removes the memoized collection for that page"
+    it "merges the new collection with the existing one"
+    it "caches with the new keys"
+
   end
 
 end

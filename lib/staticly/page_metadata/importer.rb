@@ -13,6 +13,20 @@ module Staticly
         send key
       end
 
+      def keys
+        singleton_class.instance_methods(false)
+      end
+
+      def delete(key)
+        destroy_method(key)
+      end
+
+      def clear
+        keys.each do |key|
+          delete key
+        end
+      end
+
       def key?(key)
         respond_to? key
       end
@@ -22,6 +36,12 @@ module Staticly
       def create_method(name, &body)
         singleton_class.instance_eval do
           define_method name, &body
+        end
+      end
+
+      def destroy_method(name)
+        singleton_class.instance_eval do
+          remove_method name
         end
       end
 
@@ -35,6 +55,10 @@ module Staticly
         else
           {}
         end
+      end
+
+      def self.expire!
+        @container.clear
       end
 
       def self.import_metadata(path, content)
