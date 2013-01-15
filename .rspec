@@ -1,1 +1,1 @@
--I ./lib/staticly
+-I ./lib/staticly -I ./spec/support
