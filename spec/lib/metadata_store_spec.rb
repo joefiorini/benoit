@@ -1,9 +1,9 @@
 require "json"
 require "spec_helper"
 require "spec_helpers/file_helpers"
-require "page_metadata/importer"
-require "page_metadata/container"
-require "page_metadata/parser"
+require "staticly/page_metadata/store"
+require "staticly/page_metadata/container"
+require "staticly/page_metadata/parser"
 
 class InputWrapper < Struct.new(:path, :read)
 end
@@ -18,7 +18,7 @@ RSpec::Matchers.define :have_metadata do |expected|
   end
 end
 
-describe Staticly::PageMetadata::Importer do
+describe Staticly::PageMetadata::Store do
   include FileHelpers
 
   let(:content) do
@@ -49,9 +49,11 @@ describe Staticly::PageMetadata::Importer do
 
   let(:input) { InputWrapper.new("tmp/index.html", content) }
 
+  let(:store) { described_class.current }
+
   describe "the metadata hash" do
 
-    subject { write_page; described_class.import_from_page(input) }
+    subject { write_page; store.import_from_page(input) }
 
     it "contains the original content" do
       expect(subject).to have_metadata("content").with_value("THE CONTENT\n")
@@ -69,7 +71,7 @@ describe Staticly::PageMetadata::Importer do
 
     let(:content) { "THE CONTENT" }
 
-    subject { write_page; described_class.import_from_page(input) }
+    subject { write_page; store.import_from_page(input) }
 
 
     it "returns an empty hash" do
@@ -80,19 +82,19 @@ describe Staticly::PageMetadata::Importer do
 
   describe "memoizing" do
 
-    subject { write_page; described_class.import_from_page(input) }
+    subject { write_page; store.import_from_page(input) }
 
     it "keeps it from parsing again" do
       write_new_page
       new_input = InputWrapper.new("tmp/index.html", new_content)
-      new_metadata = described_class.import_from_page(new_input)
+      new_metadata = store.import_from_page(new_input)
       expect(new_metadata).to eq(subject)
     end
 
     it "always returns the same hash" do
       write_new_page
       new_input = InputWrapper.new("tmp/index.html", new_content)
-      new_metadata = described_class.import_from_page(new_input)
+      new_metadata = store.import_from_page(new_input)
       expect(new_metadata.object_id).to eq(subject.object_id)
     end
 
@@ -101,14 +103,14 @@ describe Staticly::PageMetadata::Importer do
   describe "expiring the entire collection" do
 
 
-    subject { write_page; described_class.import_from_page(input) }
+    subject { write_page; store.import_from_page(input) }
 
     it "clears memoized keys, allowing new keys to be written" do
       subject
-      described_class.expire!
+      store.expire!
       write_new_page
       new_input = InputWrapper.new("tmp/index.html", new_content)
-      new_metadata = described_class.import_from_page(new_input)
+      new_metadata = store.import_from_page(new_input)
       expect(new_metadata).to have_metadata("key1").with_value("blah1")
       expect(new_metadata).to have_metadata("key2").with_value("blah2")
     end

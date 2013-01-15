@@ -2,13 +2,13 @@ module Staticly
   module PageMetadata
     class JsonConverter
 
-      def self.import!(json)
+      def self.import!(json, store=Store.current)
         hash = JSON.parse(json)
-        Importer.import_all!(hash)
+        store.import_all!(hash)
       end
 
-      def self.export
-        Importer.to_hash.to_json
+      def self.export(store=Store.current)
+        store.to_hash.to_json
       end
 
     end

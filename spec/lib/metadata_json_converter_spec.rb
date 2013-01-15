@@ -1,5 +1,5 @@
-require "page_metadata/importer"
-require "page_metadata/json_converter"
+require "staticly/page_metadata/store"
+require "staticly/page_metadata/json_converter"
 
 RSpec::Matchers.define :contain_page do |expected|
   match do |actual|
@@ -34,7 +34,7 @@ describe Staticly::PageMetadata::JsonConverter do
 
   it "loads all metadata into cache" do
     described_class.import!(json)
-    store = Staticly::PageMetadata::Importer
+    store = Staticly::PageMetadata::Store.current
     expect(store).to contain_page("index.html").with_metadata(index_html_metadata)
     expect(store).to contain_page("about.html").with_metadata(about_html_metadata)
   end
