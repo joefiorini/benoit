@@ -1,5 +1,32 @@
 module Staticly
   module PageMetadata
+
+    class Container
+
+      def []=(key,value)
+        create_method key do
+          value
+        end
+      end
+
+      def [](key)
+        send key
+      end
+
+      def key?(key)
+        respond_to? key
+      end
+
+      private
+
+      def create_method(name, &body)
+        singleton_class.instance_eval do
+          define_method name, &body
+        end
+      end
+
+    end
+
     class Importer
 
       def self.import_from_page(input)
@@ -12,28 +39,15 @@ module Staticly
 
       def self.import_metadata(path, content)
         key = memoized_key(path)
-        if respond_to?(key)
-          send key
+        if @container.respond_to?(:key?) and @container.key?(key)
+          @container[key]
         else
-          metadata = Parser.parse(content)
-          memoize_metadata(key, metadata)
-          metadata
+          @container ||= Class.new(Container).new
+          @container[key] = Parser.parse(content)
         end
       end
 
       private
-
-      def self.memoize_metadata(key, metadata)
-        create_method key do
-          metadata
-        end
-      end
-
-      def self.create_method(name, &body)
-        singleton_class.instance_eval do
-          define_method name, &body
-        end
-      end
 
       def self.memoized_key(path)
         :"__#{path.gsub(/[\.\/]/, "_")}_metadata"
