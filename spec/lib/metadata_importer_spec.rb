@@ -1,15 +1,7 @@
+require "json"
 require "spec_helper"
 require "page_metadata/importer"
 require "page_metadata/parser"
-
-# import Metadata.Importer
-
-# module Metadata
-# where
-# load_metadata_for_path
-# => "_load_#{converted_path}_metadata"
-# => "set_metadata_for_path"
-# => "memoize_metadata"
 
 class InputWrapper < Struct.new(:path, :read)
 end
@@ -30,6 +22,17 @@ RSpec::Matchers.define :have_metadata do |expected|
   end
   chain :with_value do |actual|
     @value = actual
+  end
+end
+
+RSpec::Matchers.define :contain_page do |expected|
+  match do |actual|
+    key = Staticly::PageMetadata::Importer.send(:memoized_key, expected)
+    expect(actual).to have_key(key)
+    expect(actual.fetch(key)).to eq(@metadata) if @metadata
+  end
+  chain :with_metadata do |metadata|
+    @metadata = metadata
   end
 end
 
@@ -130,10 +133,36 @@ describe Staticly::PageMetadata::Importer do
 
   end
 
-  describe "enhancing metadata" do
+  describe "converting metadata to/from json" do
 
-    it "merges the new collection with the existing one"
-    it "caches with the new keys"
+    let(:index_html_metadata) do
+      { "title" => "blah", "attr1" => "val1" }
+    end
+
+    let(:about_html_metadata) do
+      { "title" => "about", "attr2" => "val2" }
+    end
+
+    let(:existing_metadata) do
+      {
+        "__index_html_metadata" => index_html_metadata,
+        "__about_html_metadata" => about_html_metadata
+      }
+    end
+
+    let(:json) { existing_metadata.to_json }
+
+    it "loads all metadata into cache" do
+      container = described_class.import_from_json(json)
+      expect(container).to contain_page("index.html").with_metadata(index_html_metadata)
+      expect(container).to contain_page("about.html").with_metadata(about_html_metadata)
+    end
+
+    it "exports all metadata currently in the cache" do
+      described_class.import_from_json(json)
+      new_json = described_class.export_to_json
+      expect(new_json).to eq(json)
+    end
 
   end
 

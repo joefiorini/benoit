@@ -3,6 +3,13 @@ module Staticly
 
     class Container
 
+      def self.[](hash)
+        hash.inject(new) do |inst,(key,value)|
+          inst[key] = value
+          inst
+        end
+      end
+
       def []=(key,value)
         create_method key do
           value
@@ -13,8 +20,19 @@ module Staticly
         send key
       end
 
+      def fetch(key)
+        raise KeyError.new(key) unless key?(key)
+        self[key]
+      end
+
       def keys
         singleton_class.instance_methods(false)
+      end
+
+      def values
+        keys.map do |key|
+          send key
+        end
       end
 
       def delete(key)
@@ -27,9 +45,14 @@ module Staticly
         end
       end
 
+      def to_hash
+        Hash[keys.zip(values)]
+      end
+
       def key?(key)
         respond_to? key
       end
+      alias has_key? key? 
 
       private
 
@@ -55,6 +78,18 @@ module Staticly
         else
           {}
         end
+      end
+
+      def self.import_from_json(json)
+        hash = JSON.parse(json)
+        container_class = Class.new(Container)
+        @container = container_class[hash]
+      end
+
+      def self.export_to_json
+        return unless @container
+        hash = @container.to_hash
+        hash.to_json
       end
 
       def self.expire!
