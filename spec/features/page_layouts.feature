@@ -1,5 +1,8 @@
 Feature: Page Layouts
 
+  Background:
+    Given a site
+
   Scenario: Finds layouts in _layouts
     Given a site named "test"
     And a file named "index.html" with content:
@@ -20,4 +23,28 @@ Feature: Page Layouts
     <section id="main">
       boo
     </section>
+    """
+
+  @wip
+  Scenario: Reads layout from metadata in .html files
+    Given a file with an extension of ".html" containing metadata:
+    """
+    layout: _layout
+    """
+    And that file has content:
+    """
+    {% block content %}CONTENT{% endblock %}
+    """
+    And a layout named "_layout" with content:
+    """
+    !!!
+    {% block content %}{% endblock %}
+    !!!
+    """
+    When I build the site
+    Then the output file should have content:
+    """
+    !!!
+    CONTENT
+    !!!
     """
