@@ -5,7 +5,7 @@ RSpec::Matchers.define :contain_page do |expected|
   match do |actual|
     page_name = expected
     expect(actual).to have_page(page_name)
-    value = actual[page_name]
+    value = actual[InputWrapper.new(page_name)]
     expect(value).to eq(@metadata) if @metadata
   end
   chain :with_metadata do |metadata|

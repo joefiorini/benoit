@@ -26,9 +26,9 @@ module Staticly
         @container = container_class[hash]
       end
 
-      def [](page_name)
-        return unless @container
-        @container[memoized_key(page_name)]
+      def [](wrapper)
+        import_from_page(wrapper) unless has_page?(wrapper.path)
+        @container[memoized_key(wrapper.path)]
       end
 
       def has_page?(page_name)
@@ -43,6 +43,7 @@ module Staticly
 
       def expire!
         @container.clear
+        @container = nil
       end
 
       def import_metadata(path, content)

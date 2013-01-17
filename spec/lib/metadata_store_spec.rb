@@ -102,7 +102,6 @@ describe Staticly::PageMetadata::Store do
 
   describe "expiring the entire collection" do
 
-
     subject { write_page; store.import_from_page(input) }
 
     it "clears memoized keys, allowing new keys to be written" do
@@ -113,6 +112,19 @@ describe Staticly::PageMetadata::Store do
       new_metadata = store.import_from_page(new_input)
       expect(new_metadata).to have_metadata("key1").with_value("blah1")
       expect(new_metadata).to have_metadata("key2").with_value("blah2")
+    end
+
+  end
+
+  describe "accessing using [] notation" do
+
+    it "caches on the first access" do
+      store.expire!
+      write_page
+      metadata = store[input]
+      new_metadata = store[input]
+      expect(metadata).to_not be_nil
+      expect(metadata.object_id).to eq(new_metadata.object_id)
     end
 
   end
