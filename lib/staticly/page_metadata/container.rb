@@ -16,6 +16,7 @@ module Staticly
       end
 
       def [](key)
+        return unless respond_to? key
         send key
       end
 

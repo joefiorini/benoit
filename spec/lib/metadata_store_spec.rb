@@ -118,13 +118,24 @@ describe Staticly::PageMetadata::Store do
 
   describe "accessing using [] notation" do
 
-    it "caches on the first access" do
+    let(:input_no_metadata) { InputWrapper.new("tmp/blah.html", "") }
+
+    before(:each) do
       store.expire!
+    end
+
+    it "caches on the first access" do
       write_page
       metadata = store[input]
       new_metadata = store[input]
       expect(metadata).to_not be_nil
       expect(metadata.object_id).to eq(new_metadata.object_id)
+    end
+
+    it "returns empty hash for empty pages" do
+      write_file input_no_metadata.path, input_no_metadata.read
+      no_metadata = store[input_no_metadata]
+      expect(no_metadata).to eq({})
     end
 
   end

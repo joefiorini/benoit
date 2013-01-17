@@ -12,6 +12,17 @@ module Staticly
       end
 
     end
+
+    class SiteContextConverter
+
+      def self.export(store=Store.current)
+        store.to_hash.inject({}) do |ctxt,(key,metadata)|
+          new_key = store.path_from_key(key)
+          ctxt.merge(new_key => metadata)
+        end
+      end
+
+    end
   end
 end
 
