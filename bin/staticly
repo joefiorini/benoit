@@ -101,7 +101,8 @@ end
 on_error do |exception|
   # Error logic here
   # return false to skip default error handling
-  true
+  $stderr.puts "#{exception.to_s} <#{exception.class.name}>"
+  $stderr.puts exception.backtrace
 end
 
 exit run(ARGV)

@@ -11,7 +11,8 @@ def NormalizesPathToTemplate(template, load_paths)
         normalize_path
 end
 
-module Staticly::Utils
+module Staticly
+  module Utils
     class NormalizesPathToTemplate
         attr_accessor :template_path, :load_paths
 
@@ -28,11 +29,12 @@ module Staticly::Utils
                 return path_to_try if File.exist?(path_to_try)
                 path_to_try = File.join(load_path, path_to_try)
                 if File.exist?(path_to_try)
-                    path_to_try
+                    SimpleFileWrapper.new(path_to_try)
                 else
-                    actual_path
+                    SimpleFileWrapper.new(actual_path)
                 end
             end
         end
     end
+  end
 end

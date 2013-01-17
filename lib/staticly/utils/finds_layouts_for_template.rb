@@ -6,49 +6,60 @@
 #  Copyright 2012 densitypop. All rights reserved.
 #
 
-def FindsLayoutsForTemplate(template_path, options={})
-    Staticly::Utils::FindsLayoutsForTemplate.new(template_path, options).lookup_layouts
+def FindsLayoutsForTemplate(input, options={})
+    Staticly::Utils::FindsLayoutsForTemplate.new(input, options).lookup_layouts
 end
 
 module Staticly::Utils
+
+    class SimpleFileWrapper
+      attr_reader :path
+
+      def initialize(file_path)
+        @path = file_path
+      end
+    end
+
     class FindsLayoutsForTemplate
 
-        FrontMatterLookupStrategy = ->(template_path) {
-              metadata = Staticly::FrontMatterStore[template_path]
+
+        FrontMatterLookupStrategy = ->(input) {
+              metadata = Staticly::PageMetadata::Store.current[input]
               return unless metadata
               parent_template = metadata["layout"] || metadata["template"]
-              parent_template
+              parent_template && SimpleFileWrapper.new(parent_template)
         }
 
-        CadenzaInheritanceLookupStrategy = ->(template_path) {
+        CadenzaInheritanceLookupStrategy = ->(input) {
             extends_pattern = /\{% extends "([\.\w_-]+)" %\}/
-            return unless File.exist?(template_path)
-            match_data = File.read(template_path).match(extends_pattern)
+            return unless File.exist?(input.path)
+            match_data = File.read(input.path).match(extends_pattern)
             return unless match_data
             parent_template = match_data.captures[0]
         }
 
-        attr_reader :root, :template_path, :load_paths
+        attr_reader :root, :template_path, :load_paths, :input
 
-        def initialize(file, options)
+        def initialize(input, options)
             @load_paths = options.delete(:load_paths) || [""]
             @root = options.delete(:root)
-            @template_path = file
+            @template_path = input
+            @input = input
         end
 
         def lookup_layouts
-            recursively_lookup_layouts_for_file(template_path)
+            recursively_lookup_layouts_for_file(input)
         end
 
         private
 
-        def recursively_lookup_layouts_for_file(file, template_list=[])
+        def recursively_lookup_layouts_for_file(input, template_list=[])
 
-            parent_template = call_strategy_for_file file, root
+            parent_template = call_strategy_for_file input, root
 
             if parent_template
-                parent_template = NormalizesPathToTemplate(parent_template, load_paths)
-                template_list << parent_template
+                parent_template = NormalizesPathToTemplate(parent_template.path, load_paths)
+                template_list << parent_template.path
                 recursively_lookup_layouts_for_file(parent_template,
                      template_list)
             end
@@ -56,10 +67,10 @@ module Staticly::Utils
             template_list
         end
 
-        def call_strategy_for_file(file, root)
+        def call_strategy_for_file(input, root)
             strategies = [FrontMatterLookupStrategy, CadenzaInheritanceLookupStrategy]
             strategies.inject(nil) do |parent_template,strategy|
-                strategy.call(file) || parent_template
+                strategy.call(input) || parent_template
             end
         end
 

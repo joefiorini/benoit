@@ -12,12 +12,14 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
     def generate_output(inputs, output)
 
-        context = Staticly::SiteContext.from_hash(FrontMatterStore)
+        context_hash = PageMetadata::SiteContextConverter.export
+        context = Staticly::SiteContext.from_hash(context_hash)
 
         inputs.each do |input|
             load_paths = [input.root, Dir.pwd, "#{Dir.pwd}/_layouts"]
 
-            FrontMatterStore.set_metadata_for_page input.path, "permalink" => "/#{output.path}"
+            # TODO: Set this in Store immediately before caching
+            # FrontMatterStore.set_metadata_for_page input.path, "permalink" => "/#{output.path}"
 
             load_paths.each do |load_path|
               Cadenza::BaseContext.add_load_path load_path
@@ -25,7 +27,7 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
             context_hash = {
                 "site" => context,
-                "page" => Staticly::PageContext.from_hash(FrontMatterStore[input.path] || {})
+                "page" => context_hash[input.path]
             }
 
             begin

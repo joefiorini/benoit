@@ -13,11 +13,14 @@ module Staticly::Filters
           inputs.each do |input|
 
               layout = page_layouts_for_input(input).first
-            # TODO: Only use this for files that don't extend already but have specified a layout, if the file extends, then just replace the extends line with the normalized layout
-            template = <<-EOC
-    {% extends '#{layout}' %}
-  EOC
-            Staticly::FrontMatterStore.set_content_for_page! input.path, input.read
+
+              template =
+                if layout
+              # TODO: Only use this for files that don't extend already but have specified a layout, if the file extends, then just replace the extends line with the normalized layout
+                  "{% extends '#{layout}' %}\n\n"
+                end.to_s
+
+            template << input.read
 
             output.write(template)
 
@@ -26,7 +29,7 @@ module Staticly::Filters
 
       def page_layouts_for_input(input)
           @page_layouts[input.path] ||=
-              FindsLayoutsForTemplate(input.path, root: input.root, load_paths: ["_layouts"])
+              FindsLayoutsForTemplate(input, root: input.root, load_paths: ["_layouts"])
       end
 
       def additional_dependencies(input=nil)
