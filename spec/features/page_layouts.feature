@@ -25,7 +25,6 @@ Feature: Page Layouts
     </section>
     """
 
-  @wip
   Scenario: Reads layout from metadata in .html files
     Given a file with an extension of ".html" containing metadata:
     """

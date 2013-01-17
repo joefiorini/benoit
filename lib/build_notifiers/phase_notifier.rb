@@ -8,7 +8,7 @@ module BuildNotifiers
   }
 
   module PhaseNotifier
-    def self.call(filter)
+    def self.call(_,filter)
       if TrackPhase.last_phase?(filter)
         $stdout.puts "<COMPLETED PHASE> #{TrackPhase.lookup_phase(filter)}"
         $stdout.flush

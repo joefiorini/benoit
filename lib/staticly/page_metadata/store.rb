@@ -15,15 +15,23 @@ module Staticly
       end
 
       def import_from_page(input)
-        if Parser.should_parse?(input.path)
-          import_metadata(input.path, input.read)
-        else
-          {}
-        end
+        metadata = Parser.parse(input)
+        metadata["_original_path"] = input.path
+        import_metadata(input.path, metadata)
       end
 
       def import_all!(hash)
         @container = container_class[hash]
+      end
+
+      def import_metadata(path, metadata)
+        key = path_to_key(path)
+        if @container.respond_to?(:key?) and @container.key?(key)
+          @container[key]
+        else
+          @container ||= container_class.new
+          @container[key] = metadata
+        end
       end
 
       def [](wrapper)
@@ -44,16 +52,6 @@ module Staticly
       def expire!
         @container.clear
         @container = container_class.new
-      end
-
-      def import_metadata(path, content)
-        key = path_to_key(path)
-        if @container.respond_to?(:key?) and @container.key?(key)
-          @container[key]
-        else
-          @container ||= container_class.new
-          @container[key] = Parser.parse(content)
-        end
       end
 
       def path_from_key(key)

@@ -17,6 +17,15 @@ module Staticly
           pipeline.register_invocation_hook :before_pipline, BuildNotifiers::SummaryNotifier
           pipeline.register_invocation_hook :after_task, BuildNotifiers::FileBuiltNotifier
           pipeline.register_invocation_hook :before_filter, BuildNotifiers::PhaseNotifier
+          pipeline.register_invocation_hook :filters_ready, ->(pipeline){
+            require 'ostruct'
+            pipeline.output_files.each do |output|
+              input = output.original_inputs.first
+              wrapper = OpenStruct.new(path: output.path, read: input.read)
+              input.final_output = output
+              PageMetadata::Store.current[wrapper]
+            end
+          }
         end
         project.invoke
     end

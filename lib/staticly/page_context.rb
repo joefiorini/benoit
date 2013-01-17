@@ -17,7 +17,9 @@ module Staticly
       end
 
       def initialize(attrs)
+          @attrNames = []
           setFileType!(attrs)
+          set_permalink!(attrs)
           @metadata = methodsFromAttrs(attrs)
       end
 
@@ -26,9 +28,10 @@ module Staticly
           @template || @layout
       end
 
-      def permalink=(urlToPage)
-          @permalink = urlToPage
-          @attrNames << :permalink
+
+      def set_permalink!(attrs)
+        @permalink = "/#{attrs["_original_path"]}"
+        @attrNames << :permalink
       end
 
       def to_json(options={})
@@ -47,7 +50,6 @@ module Staticly
 
       def methodsFromAttrs(attrs)
           self.class.send :attr_reader, *attrs.keys.map(&:to_sym)
-          @attrNames = []
           attrs.each do |k,v|
               @attrNames << k.to_sym
               self.instance_variable_set "@#{k}", v

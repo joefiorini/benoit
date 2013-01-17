@@ -34,7 +34,8 @@ module Staticly::Filters
 
       def additional_dependencies(input=nil)
           if input
-             page_layouts_for_input(input)
+             output = input.original_inputs.first.final_output
+             page_layouts_for_input(output)
           else
               []
           end

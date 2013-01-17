@@ -1,7 +1,7 @@
 module BuildNotifiers
   module FileBuiltNotifier
 
-    def self.call(task)
+    def self.call(_,task)
       puts "<FILE BUILT> #{task.name}"
     end
 

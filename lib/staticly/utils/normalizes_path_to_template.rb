@@ -29,9 +29,9 @@ module Staticly
                 return path_to_try if File.exist?(path_to_try)
                 path_to_try = File.join(load_path, path_to_try)
                 if File.exist?(path_to_try)
-                    SimpleFileWrapper.new(path_to_try)
+                    path_to_try
                 else
-                    SimpleFileWrapper.new(actual_path)
+                    actual_path
                 end
             end
         end

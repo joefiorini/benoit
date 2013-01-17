@@ -12,22 +12,20 @@ end
 
 module Staticly::Utils
 
-    class SimpleFileWrapper
-      attr_reader :path
-
-      def initialize(file_path)
-        @path = file_path
-      end
-    end
 
     class FindsLayoutsForTemplate
 
 
         FrontMatterLookupStrategy = ->(input) {
+            input =
+              if input.respond_to? :final_output and input.final_output
+                input.final_output
+              else
+                input
+              end
               metadata = Staticly::PageMetadata::Store.current[input]
               return unless metadata
-              parent_template = metadata["layout"] || metadata["template"]
-              parent_template && SimpleFileWrapper.new(parent_template)
+              metadata["layout"] || metadata["template"]
         }
 
         CadenzaInheritanceLookupStrategy = ->(input) {
@@ -35,7 +33,7 @@ module Staticly::Utils
             return unless File.exist?(input.path)
             match_data = File.read(input.path).match(extends_pattern)
             return unless match_data
-            parent_template = match_data.captures[0]
+            match_data.captures[0]
         }
 
         attr_reader :root, :template_path, :load_paths, :input
@@ -58,10 +56,11 @@ module Staticly::Utils
             parent_template = call_strategy_for_file input, root
 
             if parent_template
-                parent_template = NormalizesPathToTemplate(parent_template.path, load_paths)
-                template_list << parent_template.path
-                recursively_lookup_layouts_for_file(parent_template,
-                     template_list)
+                normalized_path = NormalizesPathToTemplate(parent_template, load_paths)
+                template_list << normalized_path
+                input = Rake::Pipeline::FileWrapper.new(Dir.pwd, normalized_path)
+                # TODO: Not a fan of Dir.pwd here, but it will always work. Is there a better way to get the correct input root?
+                recursively_lookup_layouts_for_file(input, template_list)
             end
 
             template_list

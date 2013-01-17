@@ -51,6 +51,10 @@ describe Staticly::PageMetadata::Store do
 
   let(:store) { described_class.current }
 
+  before(:each) do
+    store.expire!
+  end
+
   describe "the metadata hash" do
 
     subject { write_page; store.import_from_page(input) }
@@ -69,13 +73,14 @@ describe Staticly::PageMetadata::Store do
 
   describe "without metadata" do
 
+
     let(:content) { "THE CONTENT" }
 
     subject { write_page; store.import_from_page(input) }
 
 
-    it "returns an empty hash" do
-      expect(subject).to be_empty
+    it "returns only original path" do
+      expect(subject).to eq({"_original_path" => input.path})
     end
 
   end
@@ -119,10 +124,9 @@ describe Staticly::PageMetadata::Store do
   describe "accessing using [] notation" do
 
     let(:input_no_metadata) { InputWrapper.new("tmp/blah.html", "") }
-
-    before(:each) do
-      store.expire!
-    end
+    let(:default_hash) {
+      { "_original_path" => input_no_metadata.path }
+    }
 
     it "caches on the first access" do
       write_page
@@ -132,10 +136,10 @@ describe Staticly::PageMetadata::Store do
       expect(metadata.object_id).to eq(new_metadata.object_id)
     end
 
-    it "returns empty hash for empty pages" do
+    it "returns default hash for empty pages" do
       write_file input_no_metadata.path, input_no_metadata.read
       no_metadata = store[input_no_metadata]
-      expect(no_metadata).to eq({})
+      expect(no_metadata).to eq(default_hash)
     end
 
   end
