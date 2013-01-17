@@ -25,6 +25,9 @@ module Staticly
             return template_path if File.exist?(template_path) # Already normalized, just return it
             load_paths.inject(template_path) do |actual_path,load_path|
                 path_to_try = actual_path
+                if not File.basename(path_to_try).start_with? "_"
+                  path_to_try = File.join(File.dirname(path_to_try), "_#{File.basename(path_to_try)}")
+                end
                 path_to_try += ".html" unless File.extname(path_to_try) == ".html"
                 return path_to_try if File.exist?(path_to_try)
                 path_to_try = File.join(load_path, path_to_try)

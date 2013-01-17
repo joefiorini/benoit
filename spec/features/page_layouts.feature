@@ -47,3 +47,26 @@ Feature: Page Layouts
     CONTENT
     !!!
     """
+
+  Scenario: Doesn't require layouts prefixed with underscore
+    Given a file with an extension of ".html" containing metadata:
+    """
+    layout: layout
+    """
+    And that file has content:
+    """
+    {% block content %}CONTENT{% endblock %}
+    """
+    And a layout named "_layout" with content:
+    """
+    !!!
+    {% block content %}{% endblock %}
+    !!!
+    """
+    When I build the site
+    Then the output file should have content:
+    """
+    !!!
+    CONTENT
+    !!!
+    """
