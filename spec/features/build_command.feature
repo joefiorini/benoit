@@ -11,6 +11,11 @@ Feature: staticly build
     When I run `staticly build`
     Then a directory named "~/.staticly/tmpcache/test" should exist
 
+  Scenario: Successfully processes images
+    Given the site has a file that is an image
+    When I build the site
+    Then the image should exist in the output site
+
   @backlog
   Scenario: Override default output path
     When I run `staticly build --output-path _compiled`

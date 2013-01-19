@@ -81,7 +81,7 @@ module StaticlySteps
   end
 
   step "I build the site" do
-    step "I run `staticly build`"
+    step "I successfully run `staticly build`"
   end
 
   step "the output file should have content:" do |content|
@@ -108,6 +108,16 @@ module StaticlySteps
     @layout.content = content
     @site.add_page @layout
     create_file_for_page @layout
+  end
+
+  step "the site has a file that is an image" do
+    @image_path = "spec/support/files/img.png"
+    img_content = File.read(@image_path)
+    write_file("img.png", img_content)
+  end
+
+  step "the image should exist in the output site" do
+    step 'a file named "%s" should exist' % ["_build/img.png"]
   end
 
 end

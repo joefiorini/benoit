@@ -5,6 +5,10 @@ module RunSteps
     run_simple(unescape(cmd), false)
   end
 
+  step "I successfully run :cmd" do |cmd|
+    run_simple(unescape(cmd))
+  end
+
   step "a directory named :directory should exist" do |directory|
     if directory =~ /^~/
       directory = File.expand_path(directory)
@@ -26,6 +30,14 @@ module RunSteps
 
   step "I cd to :directory" do |directory|
     cd directory
+  end
+
+  step "a :size byte file named :file_name should exist" do |file_size, file_name|
+    check_file_size([[file_name, file_size.to_i]])
+  end
+
+  step "a file named :file_name should exist" do |file_name|
+    check_file_presence([file_name], true)
   end
 
   placeholder :cmd do
