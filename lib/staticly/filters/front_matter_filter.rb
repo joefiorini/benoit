@@ -1,29 +1,21 @@
 module Staticly::Filters
-  class FrontMatterFilter < Rake::Pipeline::Filter
+  class MetadataCleaner < Rake::Pipeline::Filter
 
     include Staticly
 
     def generate_output(inputs, output)
       inputs.each do |input|
 
-          front_matter =
-          if FrontMatterParser.should_parse? input.fullpath
-            FrontMatterParser.parse input.read
+
+        key = input.original_inputs.first.final_output
+        if key
+          metadata = Staticly::PageMetadata::Store.current[key]
+          if metadata.key?("content")
+            output.write metadata["content"]
           else
-            { 'content' => input.read }
+            output.write input.read
           end
-
-        filters_to_check = pipeline.filters - [self]
-
-        final_output = super_pipeline.output_files.detect do |output|
-            output.original_inputs == input.original_inputs
         end
-
-        front_matter["_original_path"] = input.path
-
-        FrontMatterStore.save final_output.path, front_matter
-
-        output.write front_matter['content']
       end
     end
 

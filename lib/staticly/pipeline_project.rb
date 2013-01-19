@@ -1,5 +1,14 @@
 require 'rake-pipeline'
 
+module Rake
+  class Pipeline
+    class FileWrapper
+      include Staticly::FileWrapperExtensions
+
+    end
+  end
+end
+
 module Staticly
   class PipelineProject
     attr_reader :assetfile_path, :output_dir, :tmp_cache_dir, :project, :site_name
@@ -21,9 +30,9 @@ module Staticly
             require 'ostruct'
             pipeline.output_files.each do |output|
               input = output.original_inputs.first
-              input.extend(Staticly::FileWrapperExtensions)
 
               wrapper = OpenStruct.new(path: output.path, read: input.read)
+
               input.final_output = output
 
               PageMetadata::Store.current[wrapper]

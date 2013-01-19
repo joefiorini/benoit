@@ -55,13 +55,13 @@ module Staticly
       end
 
       def path_from_key(key)
-        key.to_s.sub /__([\w_]+)_metadata/ do |match,blah|
-          $1.reverse.sub(/_/, ".").reverse
+        key.to_s.sub /__(.+)_metadata/ do |match,blah|
+          $1
         end
       end
 
       def path_to_key(path)
-        :"__#{path.gsub(/[\.\/]/, "_")}_metadata"
+        :"__#{path}_metadata"
       end
 
       private

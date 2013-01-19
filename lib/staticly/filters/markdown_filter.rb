@@ -13,6 +13,11 @@ module Staticly::Filters
 
         markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, fenced_code_blocks: true)
         template_content = markdown.render(input.read)
+
+
+        key = input.original_inputs.first.final_output
+        Staticly::PageMetadata::Store.current[key]["content"] = template_content
+
         output.write(template_content)
 
       end

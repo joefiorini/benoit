@@ -1,5 +1,7 @@
 module Staticly
 
+  require_relative "./staticly/file_wrapper_extensions"
+
   require_relative './staticly/logger'
   require_relative './staticly/version'
   require_relative "./staticly/site_context"
@@ -8,8 +10,6 @@ module Staticly
   require_relative "./staticly/compiler_error"
 
   require_relative "./staticly/filters"
-
-  require_relative "./staticly/file_wrapper_extensions"
 
   require_relative "./staticly/page_metadata"
 

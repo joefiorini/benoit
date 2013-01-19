@@ -67,7 +67,7 @@ module Staticly::Utils
         end
 
         def call_strategy_for_file(input, root)
-            strategies = [FrontMatterLookupStrategy, CadenzaInheritanceLookupStrategy]
+            strategies = [FrontMatterLookupStrategy]
             strategies.inject(nil) do |parent_template,strategy|
                 strategy.call(input) || parent_template
             end

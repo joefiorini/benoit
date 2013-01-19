@@ -1,10 +1,8 @@
+before_filter Staticly::Filters::MetadataCleaner
+
 input Dir.pwd do
 
   reject "_*"
-
-  match "_posts/**/*" do
-    filter Staticly::Filters::MoveToRootFilter
-  end
 
   match "**/*{.markdown,.md,.mkdown,.mdown}" do
     filter Staticly::Filters::MarkdownFilter

@@ -2,7 +2,7 @@ module BuildNotifiers
   include Staticly::Filters
 
   FILTER_PHASES = {
-    preparing: [MoveToRootFilter, FrontMatterFilter],
+    preparing: [MetadataCleaner],
     compiling: [MarkdownFilter, ContentPageFilter, SassFilter, CadenzaFilter],
     finishing: [Rake::Pipeline::ConcatFilter, Rake::Pipeline::PipelineFinalizingFilter]
   }
