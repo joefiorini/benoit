@@ -6,10 +6,10 @@ module Staticly
   require_relative "./staticly/page_context"
   require_relative "./staticly/pipeline_project"
   require_relative "./staticly/compiler_error"
-  require_relative "./staticly/front_matter_parser"
-  require_relative "./staticly/front_matter_store"
 
   require_relative "./staticly/filters"
+
+  require_relative "./staticly/file_wrapper_extensions"
 
   require_relative "./staticly/page_metadata"
 

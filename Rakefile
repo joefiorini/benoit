@@ -1,5 +1,5 @@
 task :features do
-  exec "rspec -O .rspec-turnip"
+  exec "rspec -O .rspec-turnip spec/features"
 end
 
 task :spec do

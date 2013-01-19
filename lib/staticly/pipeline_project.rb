@@ -21,8 +21,11 @@ module Staticly
             require 'ostruct'
             pipeline.output_files.each do |output|
               input = output.original_inputs.first
+              input.extend(Staticly::FileWrapperExtensions)
+
               wrapper = OpenStruct.new(path: output.path, read: input.read)
               input.final_output = output
+
               PageMetadata::Store.current[wrapper]
             end
           }
