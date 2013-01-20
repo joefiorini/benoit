@@ -1,5 +1,3 @@
-require 'frontmatter'
-
 module Staticly::Filters
 
   class ContentPageFilter < Rake::Pipeline::Filter
