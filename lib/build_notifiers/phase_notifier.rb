@@ -1,9 +1,10 @@
 module BuildNotifiers
+  include Rake::Pipeline::Web::Filters
   include Staticly::Filters
 
   FILTER_PHASES = {
     preparing: [MetadataCleaner],
-    compiling: [MarkdownFilter, ContentPageFilter, SassFilter, CadenzaFilter],
+    compiling: [MarkdownFilter, MinispadeFilter, HandlebarsFilter, ContentPageFilter, SassFilter, CadenzaFilter],
     finishing: [Rake::Pipeline::ConcatFilter, Rake::Pipeline::PipelineFinalizingFilter]
   }
 

@@ -40,6 +40,10 @@ module RunSteps
     check_file_presence([file_name], true)
   end
 
+  step "a file named :file_name should not exist" do |file_name|
+    check_file_presence([file_name], false)
+  end
+
   placeholder :cmd do
     match /`([^`]*)`/ do |cmd|
       cmd

@@ -13,5 +13,6 @@ group :release do
   gem "compass", "~> 0.13.alpha"
   gem "chunky_png"
   gem "mbj-inflector"
+  gem "rake-pipeline-web-filters"
   gemspec
 end

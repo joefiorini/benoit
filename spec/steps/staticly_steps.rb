@@ -53,8 +53,13 @@ end
 module StaticlySteps
   extend Turnip::DSL
 
-  def create_file_for_page(page)
-    step "a file named \"#{page.name}\" with content:", page.full_content
+  def create_file_for_page(page, include_metadata=true)
+    content = if include_metadata
+      page.full_content
+    else
+      page.content
+    end
+    step "a file named \"#{page.name}\" with content:", content
   end
 
   step "I see the current Staticly version" do
@@ -80,6 +85,16 @@ module StaticlySteps
     step 'the file "%s" should contain:' % file_name, content
   end
 
+  step "the output file :file_name should exist" do |file_name|
+    file_name = File.join("_build", file_name)
+    step 'a file named "%s" should exist' % file_name
+  end
+
+  step ":file_name should not exist in the output site" do |file_name|
+    file_name = File.join("_build", file_name)
+    step 'a file named "%s" should not exist' % file_name
+  end
+
   step "I build the site" do
     step "I successfully run `staticly build`"
   end
@@ -95,6 +110,14 @@ module StaticlySteps
     @site.add_page @page
     @page.add_metadata yaml_snippet
     create_file_for_page @page
+  end
+
+  step "a file wih an extension of :extname with content:" do |extname, content|
+    @page = Page.new
+    @page.generate_name(extname)
+    @site.add_page @page
+    @page.content = content
+    create_file_for_page @page, false
   end
 
   step "that file has content:" do |content|

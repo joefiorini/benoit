@@ -1,5 +1,7 @@
 module Staticly
 
+  require "rake-pipeline-web-filters"
+
   require_relative "./staticly/file_wrapper_extensions"
 
   require_relative './staticly/logger'

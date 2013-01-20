@@ -5,7 +5,31 @@ input Dir.pwd do
   reject "_*"
 
   match "**/*{.markdown,.md,.mkdown,.mdown}" do
-    filter Staticly::Filters::MarkdownFilter
+    filter Staticly::Filters::MarkdownFilter 
+  end
+
+  match "**/*.js" do
+    filter Rake::Pipeline::Web::Filters::MinispadeFilter, string: true, module_id_generator: ->(input){
+      id = input.path.dup
+      id.sub! /.*\/rake-pipeline-\d+-tmp-\d+\//, "/"
+      id.sub! Dir.pwd, ""
+      id.sub! /\.js/, ""
+      id
+    }
+    concat do |input|
+      directory = File.dirname(input)
+      "#{directory}/app.js"
+    end
+  end
+
+  match "**/*.handlebars" do
+    filter Rake::Pipeline::Web::Filters::HandlebarsFilter
+    concat do |input|
+      directory = File.dirname(input)
+      js_dirs = Dir["**/*.js"].map { |js_file| File.dirname(js_file) }
+      js_root = js_dirs.sort(&:length).first
+      "#{js_root}/templates.js"
+    end
   end
 
   match "*.scss" do
