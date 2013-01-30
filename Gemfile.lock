@@ -30,6 +30,7 @@ GEM
     fssm (0.2.9)
     gli (2.5.3)
     json (1.7.6)
+    kronic (1.1.3)
     mbj-inflector (0.0.1)
       backports (~> 2.6.4)
     multi_json (1.5.0)
@@ -52,6 +53,7 @@ DEPENDENCIES
   frontmatter!
   gli
   json
+  kronic
   mbj-inflector
   multi_json
   rake (~> 0.9.0)

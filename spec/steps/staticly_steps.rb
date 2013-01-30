@@ -32,7 +32,7 @@ class Page
   end
 
   def generate_name(extname)
-    @name = "page_#{Time.now.to_i}#{extname}"
+    @name = "page_#{Time.now.to_i*rand(10)}#{extname}"
   end
 
   def frontmatter(hash)
@@ -102,6 +102,15 @@ module StaticlySteps
   step "the output file should have content:" do |content|
     file_name = File.join("_build", @page.name)
     step 'the file "%s" should contain:' % file_name, content
+  end
+
+  step "the output file :file_name should match :pattern" do |file_name, pattern|
+    file_name = File.join("_build", file_name)
+    step 'the file "%s" should match /%s/' % [file_name, pattern]
+  end
+
+  step "a file containing metadata:" do |yaml_snippet|
+    step 'a file with an extension of ".html" containing metadata:', yaml_snippet
   end
 
   step "a file with an extension of :extname containing metadata:" do |extname, yaml_snippet|

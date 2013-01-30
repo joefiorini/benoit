@@ -20,6 +20,7 @@ module BuildNotifiers
 
       def self.lookup_phase(filter)
         FILTER_PHASES.keys.detect do |phase|
+          puts filter.class.name.inspect
           FILTER_PHASES[phase].include? filter.class
         end
       end

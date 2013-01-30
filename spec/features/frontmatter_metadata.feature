@@ -52,3 +52,22 @@ Feature: Site Context
     """
     This is the content
     """
+
+  Scenario: Parses field named 'date' as a date object for reliable sorting
+    Given a site
+    And a file containing metadata:
+    """
+    date: December 12th, 2012
+    type: post
+    """
+    And a file containing metadata:
+    """
+    date: April 13th, 2022
+    type: post
+    """
+    And a file named "index.html" with content:
+    """
+    {{ site.posts | sort: "date" }}
+    """
+    When I build the site
+    Then the output file "index.html" should match /\[\{[^\}]*"date"=>"2012-12-12"[^}]*\}, \{[^\}]*"date"=>"2022-04-13"[^\}]*\}\]/

@@ -14,5 +14,6 @@ group :release do
   gem "chunky_png"
   gem "mbj-inflector"
   gem "rake-pipeline-web-filters"
+  gem "kronic"
   gemspec
 end

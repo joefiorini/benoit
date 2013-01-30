@@ -28,6 +28,10 @@ module RunSteps
     check_file_content(file_name, partial_content, true)
   end
 
+  step "the file :file_name should match :pattern" do |file_name, pattern|
+    check_file_content(file_name, /#{pattern}/, true)
+  end
+
   step "I cd to :directory" do |directory|
     cd directory
   end
@@ -47,6 +51,12 @@ module RunSteps
   placeholder :cmd do
     match /`([^`]*)`/ do |cmd|
       cmd
+    end
+  end
+
+  placeholder :pattern do
+    match /\/([^\/]*)\/$/ do |pattern|
+      pattern
     end
   end
 
