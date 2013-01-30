@@ -10,13 +10,14 @@
 module Staticly
     class CompilerError < StandardError
         attr_accessor :line, :message
-        attr_reader :output, :env, :file_path
+        attr_reader :output, :env, :file_path, :original_error
 
         def initialize(line, file_path, original_error)
             @line = line
             @file_path = file_path
             @output = output
             @env = env
+            @original_error = original_error
         end
 
     end

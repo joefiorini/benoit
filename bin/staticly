@@ -102,7 +102,12 @@ on_error do |exception|
   # Error logic here
   # return false to skip default error handling
   $stderr.puts "#{exception.to_s} <#{exception.class.name}>"
-  $stderr.puts exception.backtrace
+  if exception.respond_to? :original_error
+    $stderr.puts "#{exception.original_error.to_s} <#{exception.original_error.class.name}>"
+    $stderr.puts exception.original_error.backtrace
+  else
+    $stderr.puts exception.backtrace
+  end
 end
 
 exit run(ARGV)

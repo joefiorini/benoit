@@ -13,6 +13,8 @@ module Staticly
 
   require_relative "./staticly/filters"
 
+  require_relative "./staticly/cadenza"
+
   require_relative "./staticly/page_metadata"
 
   require_relative "./build_notifiers/file_built_notifier"

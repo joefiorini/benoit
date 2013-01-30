@@ -15,5 +15,6 @@ group :release do
   gem "mbj-inflector"
   gem "rake-pipeline-web-filters"
   gem "kronic"
+  gem "stamp"
   gemspec
 end
