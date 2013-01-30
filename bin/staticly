@@ -89,6 +89,11 @@ pre do |global,command,options,args|
   # chosen command
   # Use skips_pre before a command to skip this block
   # on that command only
+  if global[:"app-mode"]
+    Staticly.output_mode = :app
+  else
+    Staticly.output_mode = :user
+  end
   true
 end
 
@@ -101,13 +106,7 @@ end
 on_error do |exception|
   # Error logic here
   # return false to skip default error handling
-  $stderr.puts "#{exception.to_s} <#{exception.class.name}>"
-  if exception.respond_to? :original_error
-    $stderr.puts "#{exception.original_error.to_s} <#{exception.original_error.class.name}>"
-    $stderr.puts exception.original_error.backtrace
-  else
-    $stderr.puts exception.backtrace
-  end
+  Staticly::Logger.report_error(exception)
 end
 
 exit run(ARGV)

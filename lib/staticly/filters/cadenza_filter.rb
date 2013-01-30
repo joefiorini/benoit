@@ -36,7 +36,7 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
               error = Staticly::FileMissingError.new(ex.message, nil, input.path, ex)
               raise error
             rescue ::Cadenza::FilterNotDefinedError => ex
-              missing_filter = ex.message.scan(/undefined: '([\w\-_]*)'/).flatten.first
+              missing_filter = ex.message.scan(/undefined filter '([\w\-_]*)'/).flatten.first
               error = Staticly::CompilerError.new(nil, input.path, ex)
               error.message = "You used a filter named #{missing_filter.inspect}, but I could not find it. Maybe it's misspelled?"
               raise error

@@ -4,6 +4,7 @@ module Staticly
 
   require_relative "./staticly/file_wrapper_extensions"
 
+  require_relative './staticly/configuration'
   require_relative './staticly/logger'
   require_relative './staticly/version'
   require_relative "./staticly/site_context"
@@ -25,5 +26,7 @@ module Staticly
 
   require_relative "./staticly/utils/finds_layouts_for_template"
   require_relative "./staticly/utils/normalizes_path_to_template"
+
+  extend Configuration
 
 end

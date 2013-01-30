@@ -20,6 +20,10 @@ module Staticly
             @original_error = original_error
         end
 
+        def to_json
+          { line_no: @line, message: @message, path: @file_path, original_error: @original_error }.to_json
+        end
+
     end
 
     class FileMissingError < CompilerError
