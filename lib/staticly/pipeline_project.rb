@@ -36,6 +36,17 @@ module Staticly
               input.final_output = output
 
               PageMetadata::Store.current[wrapper]
+
+            end
+
+            current_site = CurrentSite.load
+
+            # Load ALL filters (including filters within filters)
+            filters = recursively_load_filters_from_pipeline(pipeline)
+            filters.each do |filter|
+              if filter.respond_to? :current_site=
+                filter.current_site = current_site
+              end
             end
           }
         end
@@ -43,6 +54,16 @@ module Staticly
     end
 
     private
+
+    def recursively_load_filters_from_pipeline(pipeline)
+      pipeline.filters.map do |filter|
+        if filter.respond_to? :filters
+          recursively_load_filters_from_pipeline(filter)
+        else
+          filter
+        end
+      end.flatten
+    end
 
     def default_output_dir
       File.expand_path(File.join(Dir.pwd, "_build"))

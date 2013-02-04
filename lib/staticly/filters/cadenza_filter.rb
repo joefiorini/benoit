@@ -2,18 +2,16 @@ require 'cadenza'
 
 class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
     attr_reader :options
+    attr_accessor :current_site
 
     include Staticly
 
     def initialize
-        super
-        @page_layouts = {}
+      super
+      @page_layouts = {}
     end
 
     def generate_output(inputs, output)
-
-        context_hash = PageMetadata::SiteContextConverter.export
-        context = Staticly::SiteContext.from_hash(context_hash)
 
         inputs.each do |input|
             load_paths = [input.root, Dir.pwd, "#{Dir.pwd}/_layouts"]
@@ -28,8 +26,8 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
             end
 
             context_hash = {
-                "site" => context,
-                "page" => context_hash[input.path]
+                "site" => current_site,
+                "page" => current_site[input.path]
             }
 
             begin

@@ -10,6 +10,7 @@ module Staticly
   require_relative "./staticly/page_context"
   require_relative "./staticly/pipeline_project"
   require_relative "./staticly/compiler_error"
+  require_relative "./staticly/current_site"
 
   require_relative "./staticly/filters"
 

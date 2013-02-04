@@ -23,6 +23,16 @@ module Staticly
           @pages = pages
       end
 
+      def [](key)
+        page_with_path(key)
+      end
+
+      def page_with_path(path)
+        @pages.find do |page|
+          page.permalink == "/#{path}"
+        end
+      end
+
       def pages_grouped_by_type
           @pages.group_by do |page|
             Inflector.pluralize(page._type)
