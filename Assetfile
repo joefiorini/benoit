@@ -7,7 +7,7 @@ input Dir.pwd do
   reject ".gitignore"
 
   match "**/*{.markdown,.md,.mkdown,.mdown}" do
-    filter Staticly::Filters::MarkdownFilter 
+    filter Staticly::Filters::MarkdownFilter
   end
 
   match "**/*.js" do
@@ -39,6 +39,7 @@ input Dir.pwd do
   end
 
   match "**/*.html" do
+    filter Staticly::Filters::PaginationFilter
     filter Staticly::Filters::ContentPageFilter
     filter Staticly::Filters::CadenzaFilter
   end

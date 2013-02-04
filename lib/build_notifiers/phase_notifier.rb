@@ -4,7 +4,7 @@ module BuildNotifiers
 
   FILTER_PHASES = {
     preparing: [MetadataCleaner],
-    compiling: [MarkdownFilter, MinispadeFilter, HandlebarsFilter, ContentPageFilter, SassFilter, CadenzaFilter],
+    compiling: [MarkdownFilter, MinispadeFilter, HandlebarsFilter, SassFilter, PaginationFilter, ContentPageFilter, CadenzaFilter],
     finishing: [Rake::Pipeline::ConcatFilter, Rake::Pipeline::PipelineFinalizingFilter]
   }
 
