@@ -29,7 +29,7 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
             context_hash = {
                 "site" => context,
-                "page" => context_hash[input.path].tap{|u|puts "page context: #{u.inspect}"}
+                "page" => context_hash[input.path]
             }
 
             begin

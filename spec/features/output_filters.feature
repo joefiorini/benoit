@@ -3,7 +3,6 @@ Feature: format_like Output Filter
   Background:
     Given a site
 
-  @wip @announce
   Scenario: Formats simple dates according to passed example
     Given a file containing metadata:
     """
