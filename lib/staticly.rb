@@ -13,9 +13,12 @@ module Staticly
   require_relative "./staticly/compiler_error"
   require_relative "./staticly/current_site"
 
-  require_relative "./staticly/filters"
 
   require_relative "./staticly/cadenza"
+
+  require_relative "./staticly/filters"
+  require_relative "./staticly/pipeline"
+
 
   require_relative "./staticly/page_metadata"
 

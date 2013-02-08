@@ -1,3 +1,5 @@
+require 'staticly/pipeline/dsl_extensions'
+
 before_filter Staticly::Filters::MetadataCleaner
 
 input Dir.pwd do
@@ -38,8 +40,9 @@ input Dir.pwd do
     filter Staticly::Filters::SassFilter, additional_load_paths: ["styles", "css"]
   end
 
+  needs_pagination "*.html"
+
   match "**/*.html" do
-    filter Staticly::Filters::PaginationFilter
     filter Staticly::Filters::ContentPageFilter
     filter Staticly::Filters::CadenzaFilter
   end
