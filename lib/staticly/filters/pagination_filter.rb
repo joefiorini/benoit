@@ -8,7 +8,7 @@ end
 
 module Staticly
   module Filters
-    class PaginationFilter < Rake::Pipeline::Filter
+    class PaginationFilter < MetadataCleaner
 
       def initialize
         @output_name_generator = ->(_,input){
@@ -19,11 +19,6 @@ module Staticly
         }
       end
 
-      def generate_output(inputs, output)
-        inputs.each do |input|
-          output.write input.read
-        end
-      end
     end
   end
 end
