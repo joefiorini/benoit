@@ -25,7 +25,7 @@ Feature: Javascript Files
     """
     And an empty file named "js/a.js"
     When I build the site
-    Then the output file "js/templates.js" should contain:
+    Then the output file "js/templates.js" should have content:
     """
     Ember.TEMPLATES['blah']=Ember.Handlebars.compile("{{ blah }}")
     """

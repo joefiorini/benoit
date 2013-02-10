@@ -32,7 +32,7 @@ Feature: staticly build
     <h1>Hello World</h1>
     """
     When I run `staticly build`
-    Then the output file "index.html" should contain:
+    Then the output file "index.html" should have content:
     """
     <h1>Hello World</h1>
     """

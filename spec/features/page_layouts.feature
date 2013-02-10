@@ -18,7 +18,7 @@ Feature: Page Layouts
     </section>
     """
     When I run `staticly build`
-    Then the output file "index.html" should contain:
+    Then the output file "index.html" should have content:
     """
     <section id="main">
       boo

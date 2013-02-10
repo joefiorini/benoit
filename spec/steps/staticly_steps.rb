@@ -80,17 +80,6 @@ module StaticlySteps
     step 'an empty file named "index.html"'
   end
 
-  step "the output file :file_name should contain:" do |file_name, content|
-    assert_success true
-    file_name = File.join("_build", file_name)
-    step 'the file "%s" should contain:' % file_name, content
-  end
-
-  step "the output file :file_name should exist" do |file_name|
-    file_name = File.join("_build", file_name)
-    step 'a file named "%s" should exist' % file_name
-  end
-
   step ":file_name should not exist in the output site" do |file_name|
     file_name = File.join("_build", file_name)
     step 'a file named "%s" should not exist' % file_name
@@ -100,19 +89,11 @@ module StaticlySteps
     step "I successfully run `staticly build`"
   end
 
-  step "the output file should have content:" do |content|
-    file_name = File.join("_build", @page.name)
-    step 'the file "%s" should contain:' % file_name, content
-  end
-
-  step "the output file :file_name should match :pattern" do |file_name, pattern|
-    file_name = File.join("_build", file_name)
-    step 'the file "%s" should match /%s/' % [file_name, pattern]
-  end
-
   step ":n files containing metadata:" do |n, yaml_snippet|
-    n.to_i.times do
-      step 'a file with an extension of ".html" containing metadata:', yaml_snippet
+    n.to_i.times do |i|
+      yaml = yaml_snippet + "\npage_num: #{i}"
+      step 'a file with an extension of ".html" containing metadata:', yaml
+      step 'that file has content:', i.to_s
     end
   end
 

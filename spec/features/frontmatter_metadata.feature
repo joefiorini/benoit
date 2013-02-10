@@ -20,7 +20,7 @@ Feature: Site Context
     """
     And an empty file named "_layouts/_post.html"
     When I run `staticly build`
-    Then the output file "index.html" should contain:
+    Then the output file "index.html" should have content:
     """
     <a href="/entries/post.html">Testing Post</a>
     """
@@ -48,7 +48,7 @@ Feature: Site Context
     """
     And an empty file named "_layouts/_post.html"
     When I run `staticly build`
-    Then the output file "index.html" should contain:
+    Then the output file "index.html" should have content:
     """
     This is the content
     """

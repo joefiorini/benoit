@@ -24,6 +24,10 @@ module RunSteps
     write_file(file_name, content)
   end
 
+  step "the file :file_name should contain exactly:" do |file_name, partial_content|
+    check_file_content(file_name, partial_content, false)
+  end
+
   step "the file :file_name should contain:" do |file_name, partial_content|
     check_file_content(file_name, partial_content, true)
   end
