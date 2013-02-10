@@ -36,8 +36,10 @@ module Staticly
           previous_input_files.reduce([]) do |acc,i|
             collection, count = i.read.scan(/(\w+)_per_page: (\d+)/).flatten
             if collection
+              count = count.to_i
+              Staticly::SiteContext.paginate_collection collection, count
               collection = Inflector.singularize(collection) 
-              acc << [i, collection, count.to_i]
+              acc << [i, collection, count]
             end
             acc
           end.reduce({}) do |acc,(input,collection,count)|

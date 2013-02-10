@@ -31,7 +31,7 @@ module Staticly
             pipeline.output_files.each do |output|
               input = output.original_inputs.first
 
-              wrapper = OpenStruct.new(path: output.path, read: input.read)
+              wrapper = OpenStruct.new(path: output.path, read: input.read, fullpath: input.fullpath)
 
               input.final_output = output
 

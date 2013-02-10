@@ -47,6 +47,23 @@ module Staticly
           page_collection_formatted_with &:to_hash
       end
 
+      def paginated_collections
+        self.class.paginated_collections
+      end
+
+      def paginated_collection?(key)
+        self.class.paginated_collections.key?(key)
+      end
+
+      def self.paginate_collection(collection, per_page)
+        @paginated_collections ||= {}
+        @paginated_collections.merge!(collection => per_page)
+      end
+
+      def self.paginated_collections
+        @paginated_collections
+      end
+
       private
 
       def page_collection_formatted_with(&block)
