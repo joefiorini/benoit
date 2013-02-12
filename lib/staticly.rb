@@ -29,6 +29,7 @@ module Staticly
 
   require_relative "./staticly/utils/finds_layouts_for_template"
   require_relative "./staticly/utils/normalizes_path_to_template"
+  require_relative "./staticly/utils/paginated_list"
 
   extend Configuration
 

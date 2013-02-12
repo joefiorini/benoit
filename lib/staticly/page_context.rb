@@ -17,7 +17,8 @@ module Staticly
       end
 
       def initialize(attrs)
-          @attrNames = []
+          @attr_names = @attrNames = []
+          @original_path = attrs["_original_path"]
           setFileType!(attrs)
           set_permalink!(attrs)
           @metadata = methodsFromAttrs(attrs)
@@ -28,9 +29,20 @@ module Staticly
           @template || @layout
       end
 
+      def has_value?(value)
+        @metadata.has_value?(value)
+      end
+
+      def [](key)
+        @metadata[key]
+      end
+
+      def keys
+        @metadata.keys
+      end
 
       def set_permalink!(attrs)
-        @permalink = "/#{attrs["_original_path"]}"
+        @permalink = "/#{@original_path}"
         @attrNames << :permalink
       end
 
@@ -62,6 +74,15 @@ module Staticly
               acc[attr] = value
               acc
           end
+      end
+
+      def pagination_config(attrs, &block)
+        attrs.select do |k,v|
+          keys = k.to_s.scan(/(\w+)_per_page/)
+          if keys.any?
+            block.(v)
+          end
+        end
       end
 
   end

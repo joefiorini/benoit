@@ -30,3 +30,16 @@ Feature: Content Pagination
     Then the output file "page1.html" should only contain the first 10 posts
     And the output file "page2.html" should only contain the last 10 posts
 
+  Scenario: Renders 5 posts per page
+    Given a file named "page.html" with content:
+    """
+    ---
+    posts_per_page: 5
+    ---
+
+    {% for post in site.posts | sort: "page_num" %}{{post.content}}
+    {% endfor %}
+    """
+    When I build the site
+    Then the output file "page1.html" should only contain the first 5 posts
+    And the output file "page4.html" should only contain the last 5 posts

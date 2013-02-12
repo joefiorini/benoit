@@ -17,7 +17,7 @@ module OutputFileSteps
       when "last"
         @site.pages[-1 * num.to_i, num.to_i]
       end
-    content = pages.map(&:content).join("\n")
+    content = pages.map(&:content).join("\n") + "\n"
     step 'the output file "%s" should only have content:' % file_name, content
   end
 
@@ -33,7 +33,7 @@ module OutputFileSteps
 
   step "the output file :file_name should only have content:" do |file_name, content|
     file_name = File.join("_build", file_name)
-    step 'the file "%s" should contain exactly:' % @page.name, content
+    step 'the file "%s" should contain exactly:' % file_name, content
   end
 
   step "the output file :file_name should match :pattern" do |file_name, pattern|

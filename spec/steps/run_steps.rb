@@ -25,7 +25,7 @@ module RunSteps
   end
 
   step "the file :file_name should contain exactly:" do |file_name, partial_content|
-    check_file_content(file_name, partial_content, false)
+    check_exact_file_content(file_name, partial_content)
   end
 
   step "the file :file_name should contain:" do |file_name, partial_content|

@@ -1,1 +1,1 @@
--I ./lib/staticly -I ./spec/support
+-I ./lib/staticly -I ./spec/support -fd

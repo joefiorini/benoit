@@ -13,11 +13,10 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
     def generate_output(inputs, output)
 
+      site_context = current_site.to_context
+
         inputs.each do |input|
             load_paths = [input.root, Dir.pwd, "#{Dir.pwd}/_layouts"]
-
-            # TODO: Set this in Store immediately before caching
-            # FrontMatterStore.set_metadata_for_page input.path, "permalink" => "/#{output.path}"
 
             Staticly::Cadenza.load_output_filters!
 
@@ -25,13 +24,23 @@ class Staticly::Filters::CadenzaFilter < Rake::Pipeline::Filter
               ::Cadenza::BaseContext.add_load_path load_path
             end
 
+            page = current_site[input.path].to_hash
+
+            # Leave the original page for paginated pages blank
+            #  otherwise we will get an "iteration reached an end" error
+            #  from trying to iterate past the end of the enumerator
+            if input.path !~ /\d+.html/ && page.keys.any? { |key| key =~ /\w+_per_page/ }
+              output.write("")
+              next
+            end
+
             context_hash = {
-                "site" => current_site,
-                "page" => current_site[input.path]
+                "site" => site_context,
+                "page" => page
             }
 
             begin
-              compiled = ::Cadenza.render_template input.path, JSON.parse(context_hash.to_json)
+              compiled = ::Cadenza.render_template input.path, context_hash
             rescue ::Cadenza::TemplateNotFoundError => ex
               error = Staticly::FileMissingError.new(ex.message, nil, input.path, ex)
               raise error

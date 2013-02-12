@@ -1,15 +1,11 @@
 define_filter :format_like do |date,params|
-  date_obj = Date.parse(date)
-  date_obj.stamp_like params[0]
+  date = Date.parse(date) unless date.respond_to? :stamp_like
+  date.stamp_like params[0]
 end
 
-define_filter :paginated do |collection|
-  per_page = 10
-  @paginated ||= collection.each_slice(10)
-  begin
-  @paginated.next
-  rescue
-    @paginated = nil
-    collection
+define_filter :sort do |input,params|
+  field = params.first.to_sym
+  input.sort_by do |item|
+    ::Cadenza::Context.lookup_on_object(field, item)
   end
 end
