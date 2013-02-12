@@ -12,12 +12,9 @@ module Staticly
       attr_reader :per_page, :ops, :source, :enum
 
       def initialize(list, per_page=nil, &block)
+        @ops = []
         @list = list
-        if per_page
-          @ops = []
-          @source = list
-          @per_page = per_page
-        end
+        @per_page = per_page
       end
 
 
@@ -35,9 +32,14 @@ module Staticly
         end
       end
 
+      def paginated
+        @enum ||= @list.each_slice(@per_page)
+        @enum.next
+      end
+
       def sort_by(&block)
         @ops << ->(list){
-          @list.sort_by(&block)
+          list.sort_by(&block)
         }
         self
       end
@@ -49,16 +51,12 @@ module Staticly
         self
       end
 
-      def paginated
-        @enum ||= @list.each_slice(@per_page)
-        @enum.next
-      end
-
       def limit(n)
         return self if @enum
         @ops << ->(list){
-          @list.take(n)
+          list.take(n)
         }
+        self
       end
 
       def reverse
@@ -66,13 +64,14 @@ module Staticly
         @ops << ->(list){
           list.reverse
         }
+        self
       end
 
       private
 
       def run_queued_operations!
         @list =
-          @ops.inject(@source) do |l,op|
+          @ops.inject(@list) do |l,op|
             op.call l
           end
       end
