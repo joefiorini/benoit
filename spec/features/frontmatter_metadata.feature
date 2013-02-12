@@ -67,7 +67,12 @@ Feature: Site Context
     """
     And a file named "index.html" with content:
     """
-    {{ site.posts | sort: "date" }}
+    {% for post in site.posts | sort: "date" %}{{ post.date }}
+    {% endfor %}
     """
     When I build the site
-    Then the output file "index.html" should match /\[\{[^\}]*"date"=>"2012-12-12"[^}]*\}, \{[^\}]*"date"=>"2022-04-13"[^\}]*\}\]/
+    Then the output file "index.html" should have content:
+    """
+    2012-12-12
+    2022-04-13
+    """

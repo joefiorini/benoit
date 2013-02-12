@@ -23,7 +23,7 @@ Feature: Content Pagination
     posts_per_page: 10
     ---
 
-    {% for post in site.posts | sort: "page_num" | paginated %}{{post.content}}
+    {% for post in site.posts | sort: "page_num" %}{{post.content}}
     {% endfor %}
     """
     When I build the site
