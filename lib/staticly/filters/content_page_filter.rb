@@ -2,6 +2,8 @@ module Staticly::Filters
 
   class ContentPageFilter < Rake::Pipeline::Filter
 
+    attr_accessor :current_site
+
       def initialize
           super
           @page_layouts = {}
@@ -32,8 +34,8 @@ module Staticly::Filters
 
       def additional_dependencies(input=nil)
           if input
-             output = input.original_inputs.first.final_output
-             page_layouts_for_input(output)
+             output = current_site.paths_map[input.path]
+             page_layouts_for_input(input)
           else
               []
           end

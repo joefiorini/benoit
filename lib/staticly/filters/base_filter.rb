@@ -14,6 +14,8 @@ module Staticly
         end
       end
 
+      attr_accessor :current_site
+
       def output_name_generator
         self.class.output_name_generator ||
           @output_name_generator
@@ -25,10 +27,9 @@ module Staticly
 
       def generate_output(inputs, output)
         inputs.each do |input|
-          page = Staticly::Page.load_for_path(input.path)
+          page = current_site[input.path]
           content = build_output(page, input) if builder
-          content ||= input.read
-          output.write(content)
+          output.write(content || page["content"])
         end
       end
 

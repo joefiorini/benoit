@@ -27,18 +27,21 @@ module Staticly
           pipeline.register_invocation_hook :before_filter, BuildNotifiers::ProgressNotifier
           pipeline.register_invocation_hook :filters_ready, ->(pipeline){
             require 'ostruct'
+            paths_map = {}
             pipeline.output_files.each do |output|
               input = output.original_inputs.first
 
               wrapper = OpenStruct.new(path: output.path, read: input.read, fullpath: input.fullpath)
 
-              input.final_output = output
+              paths_map[input.path] = output.path
 
               PageMetadata::Store.current[wrapper]
 
             end
 
             current_site = CurrentSite.load
+
+            current_site.paths_map = paths_map
 
             # Load ALL filters (including filters within filters)
             filters = recursively_load_filters_from_pipeline(pipeline)

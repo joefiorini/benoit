@@ -3,18 +3,15 @@ module Staticly::Filters
 
     include Staticly
 
+    attr_accessor :current_site
+
     def generate_output(inputs, output)
       inputs.each do |input|
-
-
-        key = input.original_inputs.first.final_output
-        if key
-          metadata = Staticly::PageMetadata::Store.current[key]
-          if metadata.key?("content")
-            output.write metadata["content"]
-          else
-            output.write input.read
-          end
+        metadata = current_site[input.path]
+        if metadata.has_value?("content")
+          output.write metadata["content"]
+        else
+          output.write input.read
         end
       end
     end

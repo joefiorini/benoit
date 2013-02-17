@@ -1,5 +1,6 @@
 module Staticly
   module Filters
+      require_relative './filters/base_filter'
       require_relative './filters/sass_filter'
       require_relative './filters/cadenza_filter'
       require_relative './filters/pass_thru_filter'

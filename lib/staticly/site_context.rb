@@ -13,8 +13,6 @@ require 'cadenza/context_object'
 module Staticly
   class SiteContext
 
-    attr_reader :pages
-
     class ContextObject < Cadenza::ContextObject
       def initialize(site)
         @site = site
@@ -57,11 +55,16 @@ module Staticly
           new(page_contexts)
       end
 
+    attr_reader :pages
+
+    attr_accessor :paths_map
+
       def initialize(pages)
           @pages = pages
       end
 
       def [](key)
+        key = paths_map[key] if paths_map.key?(key)
         page_with_path(key)
       end
 

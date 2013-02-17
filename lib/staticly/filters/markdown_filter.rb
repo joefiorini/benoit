@@ -1,26 +1,18 @@
 require 'redcarpet'
 
 module Staticly::Filters
-  class MarkdownFilter < Rake::Pipeline::Filter
+  class MarkdownFilter < BaseFilter
 
-    def initialize(&block)
-      block ||= proc { |input| input.sub(/\.(md|mdown|mkdown|markdown)$/, '.html') }
-      super(&block)
+    output_name do |path|
+      path.sub(/\.(md|mdown|mkdown|markdown)$/, '.html')
     end
 
-    def generate_output(inputs, output)
-      inputs.each do |input|
+    build_output do |page|
 
-        markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, fenced_code_blocks: true)
-        template_content = markdown.render(input.read)
+      markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, fenced_code_blocks: true)
+      rendered = markdown.render(page["content"])
 
-
-        key = input.original_inputs.first.final_output
-        Staticly::PageMetadata::Store.current[key]["content"] = template_content
-
-        output.write(template_content)
-
-      end
+      page["content"] = rendered
     end
 
   end

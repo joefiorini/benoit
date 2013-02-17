@@ -77,7 +77,6 @@ Feature: Site Context
     2022-04-13
     """
 
-  @wip
   Scenario: Metadata contains rendered Markdown
     Given a site
     And a file wih an extension of ".markdown" with content:

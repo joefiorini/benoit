@@ -1,6 +1,6 @@
 module Staticly
   class Page
-      attr_reader :full_content, :attrs_hash, :siteContext, :permalink
+      attr_reader :attrs_hash, :siteContext, :permalink
 
       def self.from_hash(page_attrs)
           new(page_attrs)
@@ -28,6 +28,7 @@ module Staticly
       end
 
       def []=(key, value)
+        instance_variable_set("@#{key}", value)
         @metadata[key] = value
       end
 
