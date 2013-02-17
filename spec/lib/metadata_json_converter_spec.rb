@@ -4,6 +4,7 @@ require "staticly/page_metadata/json_converter"
 RSpec::Matchers.define :contain_page do |expected|
   match do |actual|
     page_name = expected
+    page_name.sub! /\./, "_"
     expect(actual).to have_page(page_name)
     value = actual[InputWrapper.new(page_name)]
     expect(value).to eq(@metadata) if @metadata
@@ -56,7 +57,7 @@ describe Staticly::PageMetadata do
     it "exports a hash with site paths instead of metadata keys" do
       JsonConverter.import!(existing_metadata.to_json)
       exported = SiteContextConverter.export
-      expect(exported.keys).to eq(["index.html", "about.html"])
+      expect(exported.keys).to eq(["index_html", "about_html"])
     end
   end
 
