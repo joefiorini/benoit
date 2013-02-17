@@ -76,3 +76,25 @@ Feature: Site Context
     2012-12-12
     2022-04-13
     """
+
+  @wip
+  Scenario: Metadata contains rendered Markdown
+    Given a site
+    And a file wih an extension of ".markdown" with content:
+    """
+    ---
+    type: post
+    ---
+
+    [a link](http://www.example.com)
+    """
+    And a file named "index.html" with content:
+    """
+    {% for post in site.posts %}{{ post.content }}
+    {% endfor %}
+    """
+    When I build the site
+    Then the output file "index.html" should have content:
+    """
+    <a href="http://www.example.com">a link</a>
+    """
