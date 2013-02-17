@@ -21,7 +21,7 @@ module Staticly
         end
 
         def to_json
-          { line_no: @line, message: @message, path: @file_path, original_error: @original_error }.to_json
+          { line_no: @line, message: @message, path: @file_path, original_error: @original_error, type: "error" }.to_json
         end
 
     end

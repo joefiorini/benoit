@@ -23,8 +23,7 @@ module Staticly
   require_relative "./staticly/page_metadata"
 
   require_relative "./build_notifiers/file_built_notifier"
-  require_relative "./build_notifiers/phase_notifier"
-  require_relative "./build_notifiers/summary_notifier"
+  require_relative "./build_notifiers/progress_notifier"
 
 
   require_relative "./staticly/utils/finds_layouts_for_template"
