@@ -52,7 +52,7 @@ module Staticly
 
       def self.from_hash(context_attrs)
           page_contexts = context_attrs.values.map do |context|
-              PageContext.from_hash(context)
+              Page.from_hash(context)
           end
           new(page_contexts)
       end

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'staticly/page_context'
+require 'staticly/page'
 
-describe Staticly::PageContext do
+describe Staticly::Page do
 
   let(:metadata) { { "blah" => "diddy" } }
   subject { described_class.new(metadata) }

@@ -1,15 +1,5 @@
-#
-#  PageContext.rb
-#  Staticly
-#
-#  Created by Joseph Fiorini on 10/22/12.
-#  Copyright 2012 densitypop. All rights reserved.
-#
-
-require 'ostruct'
-
 module Staticly
-  class PageContext
+  class Page
       attr_reader :full_content, :attrs_hash, :siteContext, :permalink
 
       def self.from_hash(page_attrs)

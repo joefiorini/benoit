@@ -8,7 +8,7 @@ module Staticly
   require_relative './staticly/logger'
   require_relative './staticly/version'
   require_relative "./staticly/site_context"
-  require_relative "./staticly/page_context"
+  require_relative "./staticly/page"
   require_relative "./staticly/pipeline_project"
   require_relative "./staticly/compiler_error"
   require_relative "./staticly/current_site"
