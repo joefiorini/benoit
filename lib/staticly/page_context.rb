@@ -37,6 +37,10 @@ module Staticly
         @metadata[key]
       end
 
+      def []=(key, value)
+        @metadata[key] = value
+      end
+
       def keys
         @metadata.keys
       end
