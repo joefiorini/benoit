@@ -13,20 +13,22 @@ class Staticly::Filters::SassFilter < Rake::Pipeline::Filter
     attr_reader :options, :additional_load_paths
 
     def initialize(options={})
-        # TODO: Handle files that don't end in .scss
-        block ||= proc { |input| input.sub(/\.(scss|sass)$/, '') }
-        super(&block)
-        Compass.add_project_configuration
-        Compass.configuration.project_path ||= Dir.pwd
-        @additional_load_paths = Compass.configuration.sass_load_paths
-        @additional_load_paths += options.delete(:additional_load_paths).map do |f|
-            File.expand_path(f)
-        end
+      additional_load_paths = options.delete(:additional_load_paths)
+
+      # TODO: Handle files that don't end in .scss
+      block ||= proc { |input| input.sub(/\.(scss|sass)$/, '') }
+      super(&block)
+      Compass.add_project_configuration
+      Compass.configuration.project_path ||= Dir.pwd
+      @additional_load_paths = Compass.configuration.sass_load_paths
+      @additional_load_paths += additional_load_paths.map do |f|
+        File.expand_path(f)
+      end
 
 
-        @options = options
-        @options[:load_paths] ||= []
-        @options[:load_paths].concat(additional_load_paths)
+      @options = options
+      @options[:load_paths] ||= []
+      @options[:load_paths].concat(additional_load_paths)
 
     end
 
@@ -53,20 +55,20 @@ class Staticly::Filters::SassFilter < Rake::Pipeline::Filter
     end
 
     def additional_dependencies(input=nil)
-        Dir.glob("**/*.scss")
+      Dir.glob("**/*.scss")
     end
 
 
     private
 
     def sass_options_for_file(file)
-        added_opts = {
-            :syntax => file.path.match(/\.sass$/) ? :sass : :scss,
-            :trace => true,
-            :cache => false,
-            :cache_location => nil
-        }
+      added_opts = {
+        :syntax => file.path.match(/\.sass$/) ? :sass : :scss,
+        :trace => true,
+        :cache => false,
+        :cache_location => nil
+      }
 
-        added_opts.merge(@options)
+      added_opts.merge(@options)
     end
-end
+  end
