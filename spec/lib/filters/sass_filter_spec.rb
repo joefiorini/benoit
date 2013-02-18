@@ -55,4 +55,19 @@ describe Staticly::Filters::SassFilter do
     file = MemoryFileWrapper.files["/path/to/output/input.css"]
     expect(file.body).to eq(expected_output)
   end
+
+  describe "files ending in .css.scss" do
+
+    let(:scss_input_path) {
+      File.expand_path("spec/support/files/input.css.scss")
+    }
+
+    it "do not end in .css.css" do
+      filter = setup_filter described_class.new
+
+      output_file = output_file("input.css")
+      expect(filter.output_files).to eq([output_file])
+    end
+
+  end
 end

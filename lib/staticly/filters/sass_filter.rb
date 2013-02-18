@@ -16,7 +16,7 @@ class Staticly::Filters::SassFilter < Rake::Pipeline::Filter
       load_paths = options.delete(:additional_load_paths) || []
 
       # TODO: Handle files that don't end in .scss
-      block ||= proc { |input| input.sub(/\.(scss|sass)$/, '.css') }
+      block ||= proc { |input| input.sub(/\.(?:css\.)?(scss|sass)$/, '.css') }
       super(&block)
       Compass.add_project_configuration
       Compass.configuration.project_path ||= Dir.pwd
