@@ -13,15 +13,15 @@ class Staticly::Filters::SassFilter < Rake::Pipeline::Filter
     attr_reader :options, :additional_load_paths
 
     def initialize(options={})
-      additional_load_paths = options.delete(:additional_load_paths)
+      load_paths = options.delete(:additional_load_paths) || []
 
       # TODO: Handle files that don't end in .scss
-      block ||= proc { |input| input.sub(/\.(scss|sass)$/, '') }
+      block ||= proc { |input| input.sub(/\.(scss|sass)$/, '.css') }
       super(&block)
       Compass.add_project_configuration
       Compass.configuration.project_path ||= Dir.pwd
       @additional_load_paths = Compass.configuration.sass_load_paths
-      @additional_load_paths += additional_load_paths.map do |f|
+      @additional_load_paths += load_paths.map do |f|
         File.expand_path(f)
       end
 
@@ -36,7 +36,7 @@ class Staticly::Filters::SassFilter < Rake::Pipeline::Filter
       inputs.each do |input|
         begin
           sass_options = sass_options_for_file(input).merge(filename: input.path)
-          sass_engine = Sass::Engine.for_file(input.path, sass_options)
+          sass_engine = Sass::Engine.for_file(input.fullpath, sass_options)
           output.write sass_engine.render
         rescue Sass::SyntaxError => ex
           path = ex.sass_filename.gsub(input.root + "/", "")
