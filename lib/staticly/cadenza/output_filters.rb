@@ -9,3 +9,13 @@ define_filter :sort do |input,params|
     ::Cadenza::Context.lookup_on_object(field, item)
   end
 end
+
+define_filter :limit do |input,params|
+  length = params.first
+
+  if length > 0
+    input.take(length)
+  else
+    input.is_a?(Array) ? [] : ""
+  end
+end

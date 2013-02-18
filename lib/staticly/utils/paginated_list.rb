@@ -51,7 +51,7 @@ module Staticly
         self
       end
 
-      def limit(n)
+      def take(n)
         return self if @enum
         @ops << ->(list){
           list.take(n)
