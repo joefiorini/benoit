@@ -31,7 +31,7 @@ module Staticly
       end
     rescue StandardError => ex
       if Staticly.output_mode == :app
-        $stderr.puts({ line_no: nil, message: ex.message, path: __FILE__ })
+        $stderr.puts({ line_no: nil, message: ex.message, path: __FILE__ }.to_json)
       else
         $stderr.puts ex.message
         $stderr.puts ex.backtrace

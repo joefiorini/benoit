@@ -6,6 +6,11 @@
 #  Copyright 2012 densitypop. All rights reserved.
 #
 
+class StandardError
+  def to_json
+    { message: "Staticly has encountered an internal error. Please contact @staticlyapp on Twitter to resolve this problem.", type: "error" }.to_json
+  end
+end
 
 module Staticly
     class CompilerError < StandardError
