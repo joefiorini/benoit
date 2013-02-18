@@ -31,7 +31,7 @@ module Staticly
             page["_type"] == name
           end
 
-          collection.map! &:to_hash
+          collection.map!(&:to_hash)
 
           if @site.paginated_collection?(plural_name)
             per_page = @site.paginated_collections[plural_name]

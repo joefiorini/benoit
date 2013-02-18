@@ -23,6 +23,10 @@ module Staticly
         @metadata.has_value?(value)
       end
 
+      def key?(key)
+        @metadata.key?(key)
+      end
+
       def [](key)
         @metadata[key]
       end

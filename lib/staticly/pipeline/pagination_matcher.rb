@@ -38,7 +38,7 @@ module Staticly
             if collection
               count = count.to_i
               Staticly::SiteContext.paginate_collection collection, count
-              collection = Inflector.singularize(collection) 
+              collection = Inflector.singularize(collection)
               acc << [i, collection, count]
             end
             acc
@@ -46,7 +46,7 @@ module Staticly
             total = collection_totals[collection]
             acc.merge(input => total / count + total % count)
           end
-        end
+      end
 
     end
   end

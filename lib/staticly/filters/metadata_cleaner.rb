@@ -8,7 +8,7 @@ module Staticly::Filters
     def generate_output(inputs, output)
       inputs.each do |input|
         metadata = current_site[input.path]
-        if metadata.has_value?("content")
+        if metadata and metadata.key?("content")
           output.write metadata["content"]
         else
           output.write input.read
