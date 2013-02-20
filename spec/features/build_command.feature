@@ -4,11 +4,11 @@ Feature: staticly build
     Given a site named "test"
 
   Scenario: Defaults output path to "./_build"
-    When I run `staticly build`
+    When I build the site
     Then a directory named "_build" should exist
 
   Scenario: Defaults cache path to "~/.staticly/tmpcache/{site}"
-    When I run `staticly build`
+    When I build the site
     Then a directory named "~/.staticly/tmpcache/test" should exist
 
   Scenario: Successfully processes images
