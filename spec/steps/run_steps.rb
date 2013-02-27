@@ -40,6 +40,10 @@ module RunSteps
     cd directory
   end
 
+  step "I remove the file :file_name" do |file_name|
+    remove_file(file_name)
+  end
+
   step "a :size byte file named :file_name should exist" do |file_size, file_name|
     check_file_size([[file_name, file_size.to_i]])
   end

@@ -24,13 +24,13 @@ module Staticly
 
       error message
 
-      if Staticly.output_mode == :app
+      if Staticly.config.output_mode == :app
         $stderr.puts ex.to_json
       else
         $stderr.puts message
       end
     rescue StandardError => ex
-      if Staticly.output_mode == :app
+      if Staticly.config.output_mode == :app
         $stderr.puts({ line_no: nil, message: ex.message, path: __FILE__ }.to_json)
       else
         $stderr.puts ex.message

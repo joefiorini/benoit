@@ -11,6 +11,10 @@ class TestSite
     @pages << page
   end
 
+  def delete_page(page)
+    @pages = @pages.reject { |p| p.name == page.name }
+  end
+
   def generate_name
     @name = "site_#{Time.now.to_i}"
   end
@@ -63,6 +67,10 @@ module StaticlySteps
     step "a file named \"#{page.name}\" with content:", content
   end
 
+  def delete_file_for_page(page)
+    step 'I remove the file "%s"' % page.name
+  end
+
   step "I see the current Staticly version" do
     require_relative "../../lib/staticly/version"
     assert_partial_output(Staticly::VERSION, all_output)
@@ -80,6 +88,11 @@ module StaticlySteps
     step 'an empty file named "index.html"'
   end
 
+  step "a cache directory should exist for that site" do
+    path = File.expand_path(File.join("~", ".staticly", "tmpcache", @site.name))
+    step 'a directory named "%s" should exist' % path
+  end
+
   step ":file_name should not exist in the output site" do |file_name|
     file_name = File.join("_build", file_name)
     step 'a file named "%s" should not exist' % file_name
@@ -89,12 +102,27 @@ module StaticlySteps
     step "I successfully run `staticly build`"
   end
 
+  step "I build the site with the flag :flag" do |flag|
+    step "I successfully run `staticly build #{flag}`"
+  end
+
   step ":n files containing metadata:" do |n, yaml_snippet|
     n.to_i.times do |i|
       yaml = yaml_snippet + "\npage_num: #{i}"
       step 'a file with an extension of ".html" containing metadata:', yaml
       step 'that file has content:', i.to_s
     end
+  end
+
+  step "a file" do
+    step 'a file with an extension of ".html"'
+  end
+
+  step "a file with an extension of :extname" do |extname|
+    @page = Page.new
+    @page.generate_name(extname)
+    @site.add_page @page
+    create_file_for_page @page
   end
 
   step "a file containing metadata:" do |yaml_snippet|
@@ -137,10 +165,25 @@ module StaticlySteps
     create_file_for_page @layout
   end
 
+  step "I delete the file" do
+    @site.delete_page @page
+    delete_file_for_page @page
+  end
+
   step "the site has a file that is an image" do
     @image_path = "spec/support/files/img.png"
     img_content = File.read(@image_path)
     write_file("img.png", img_content)
+  end
+
+  step "that file should not exist in the output site" do
+    path = File.join("_build", @page.name)
+    step 'a file named "%s" should not exist' % path
+  end
+
+  step "that file should exist in the output site" do
+    path = File.join("_build", @page.name)
+    step 'a file named "%s" should exist' % path
   end
 
   step "the image should exist in the output site" do

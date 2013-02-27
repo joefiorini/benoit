@@ -9,7 +9,7 @@ module BuildNotifiers
     end
 
     def self.notify_built(path, status="built")
-      if Staticly.output_mode == :app
+      if Staticly.config.output_mode == :app
         puts({ type: status, path: path }.to_json)
       else
         puts "Built: #{path}"

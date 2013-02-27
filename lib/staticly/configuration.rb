@@ -1,12 +1,23 @@
 module Staticly
   module Configuration
 
-    def output_mode=(mode)
-      @output_mode = mode
+    class Config
+
+      attr_accessor :output_mode, :cache_path, :output_path, :site_path
+      attr_writer :clean_before_build
+
+      def clean_before_build?
+        @clean_before_build
+      end
+
     end
 
-    def output_mode
-      @output_mode
+    def configure(&block)
+      block.call(config)
+    end
+
+    def config
+      @config ||= Config.new
     end
 
   end

@@ -12,6 +12,7 @@ module Staticly
   require_relative "./staticly/pipeline_project"
   require_relative "./staticly/compiler_error"
   require_relative "./staticly/current_site"
+  require_relative "./staticly/cleaner"
 
 
   require_relative "./staticly/cadenza"
