@@ -22,6 +22,12 @@ describe SiteContext do
 
 end
 
+RSpec::Matchers.define :be_pointing_at_first_page do
+  match do |expected|
+    expected.peek == [pages.first]
+  end
+end
+
 describe SiteContext::ContextObject do
 
   let(:type) { "post" }
@@ -61,10 +67,34 @@ describe SiteContext::ContextObject do
 
   describe "pagination" do
     let(:num_pages) { 3 }
-    it "returns a paginated list when posts_per_page specified" do
+
+    before do
       SiteContext.paginate_collection("posts", 1)
+    end
+
+    it "returns a paginated list when posts_per_page specified" do
       pages << {"posts_per_page" => 1}
       expect(subject).to be_a(Staticly::Utils::PaginatedList)
+    end
+
+    specify "iterating over each page returns the items for that page" do
+      pages << {"posts_per_page" => 1}
+      1.upto(num_pages) do |idx|
+        context.posts.each do |page|
+          expect(page).to eq(pages[idx-1])
+        end
+      end
+    end
+
+    it "rewinds the list if it is at the end" do
+      pages << {"posts_per_page" => 1}
+      # Fast-forward list to end
+      1.upto(num_pages) do
+        subject.each{|p|}
+      end
+      new_list = context.posts
+      expect{new_list.peek}.to_not raise_error(StopIteration)
+      expect(new_list).to be_pointing_at_first_page
     end
 
   end

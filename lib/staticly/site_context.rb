@@ -20,11 +20,13 @@ module Staticly
       end
 
       def method_missing(msg,*args)
-
         plural_name = msg.to_s
         name = Inflector.singularize(plural_name)
 
-        return @paginated if @paginated
+        if @paginated
+          @paginated.rewind_list! if @paginated.at_end?
+          return @paginated
+        end
 
         if @pages.any? {|page| page.has_value?(name) }
           collection = @pages.select do |page|

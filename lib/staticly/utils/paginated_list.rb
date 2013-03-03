@@ -28,7 +28,7 @@ module Staticly
       def each_with_index(&block)
         run_queued_operations!
         paginated.each_with_index do |p,i|
-          block.call(self.next, i)
+          block.call(p, i)
         end
       end
 
@@ -65,6 +65,21 @@ module Staticly
           list.reverse
         }
         self
+      end
+
+      def peek
+        @enum.peek if @enum
+      end
+
+      def at_end?
+        @enum.peek
+        false
+      rescue StopIteration
+        true
+      end
+
+      def rewind_list!
+        @enum.rewind
       end
 
       private
