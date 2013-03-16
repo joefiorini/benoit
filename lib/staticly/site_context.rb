@@ -7,7 +7,7 @@
 #
 
 require 'json'
-require 'inflector'
+require 'inflecto'
 require 'cadenza/context_object'
 
 module Staticly
@@ -21,7 +21,7 @@ module Staticly
 
       def method_missing(msg,*args)
         plural_name = msg.to_s
-        name = Inflector.singularize(plural_name)
+        name = Inflecto.singularize(plural_name)
 
         if @paginated
           @paginated.rewind_list! if @paginated.at_end?

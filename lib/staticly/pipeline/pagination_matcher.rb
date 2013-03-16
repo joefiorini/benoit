@@ -38,7 +38,7 @@ module Staticly
             if collection
               count = count.to_i
               Staticly::SiteContext.paginate_collection collection, count
-              collection = Inflector.singularize(collection)
+              collection = Inflecto.singularize(collection)
               acc << [i, collection, count]
             end
             acc

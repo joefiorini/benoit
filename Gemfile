@@ -12,7 +12,7 @@ group :release do
   gem "redcarpet"
   gem "compass", "~> 0.13.alpha"
   gem "chunky_png"
-  gem "mbj-inflector"
+  gem "inflecto"
   gem "rake-pipeline-web-filters"
   gem "kronic"
   gem "stamp"
