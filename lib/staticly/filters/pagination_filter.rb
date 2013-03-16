@@ -1,8 +1,7 @@
 class Pathname
   def append_basename(str, suffix=nil)
     ext = suffix || extname
-    n = basename(ext)
-    Pathname.new(n.to_s + str.to_s + ext.to_s)
+    dirname.join(basename(ext).to_s + str + ext.to_s)
   end
 end
 
