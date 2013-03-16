@@ -20,6 +20,7 @@ module Staticly
 
       def each(&block)
         run_queued_operations!
+        return paginate! && @enum unless block_given?
         paginated.each do |page|
           block.call(page)
         end
@@ -32,8 +33,12 @@ module Staticly
         end
       end
 
-      def paginated
+      def paginate!
         @enum ||= @list.each_slice(@per_page)
+      end
+
+      def paginated
+        paginate!
         @enum.next
       end
 
@@ -72,6 +77,7 @@ module Staticly
       end
 
       def at_end?
+        return false if @enum.nil?
         @enum.peek
         false
       rescue StopIteration

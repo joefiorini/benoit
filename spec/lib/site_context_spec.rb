@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'staticly/page'
 require 'staticly/site_context'
 require 'staticly/utils/paginated_list'
 
@@ -67,32 +68,35 @@ describe SiteContext::ContextObject do
 
   describe "pagination" do
     let(:num_pages) { 3 }
+    subject { context.paginated_posts }
 
     before do
       SiteContext.paginate_collection("posts", 1)
+      pages << {"posts_per_page" => 1}
     end
 
-    it "returns a paginated list when posts_per_page specified" do
-      pages << {"posts_per_page" => 1}
-      expect(subject).to be_a(Staticly::Utils::PaginatedList)
+    it "collects resource names with per_page count" do
+      expect(site.paginated_collections["posts"]).to eq([1])
     end
 
-    specify "iterating over each page returns the items for that page" do
-      pages << {"posts_per_page" => 1}
-      1.upto(num_pages) do |idx|
-        context.posts.each do |page|
-          expect(page).to eq(pages[idx-1])
-        end
-      end
+    it "returns the collection sliced by page" do
+      collection = subject.each
+      expect(collection.next.first).to eq(pages.first)
+      expect(collection.next.first).to eq(pages[1])
+      expect(collection.next.first).to eq(pages[2])
+    end
+
+    it "returns the existing list if already set" do
+      list = context.paginated_collection("posts")
+      expect(context.paginated_collection("posts")).to eq(list)
     end
 
     it "rewinds the list if it is at the end" do
-      pages << {"posts_per_page" => 1}
       # Fast-forward list to end
       1.upto(num_pages) do
         subject.each{|p|}
       end
-      new_list = context.posts
+      new_list = context.paginated_posts
       expect{new_list.peek}.to_not raise_error(StopIteration)
       expect(new_list).to be_pointing_at_first_page
     end

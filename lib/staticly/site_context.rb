@@ -19,28 +19,44 @@ module Staticly
         @pages = site.pages
       end
 
-      def method_missing(msg,*args)
-        plural_name = msg.to_s
-        name = Inflecto.singularize(plural_name)
-
-        if @paginated
-          @paginated.rewind_list! if @paginated.at_end?
-          return @paginated
+      def lookup_resource_collection(name)
+        singular_name = Inflecto.singularize(name)
+        collection = @pages.select do |page|
+          page["_type"] == singular_name
         end
 
-        if @pages.any? {|page| page.has_value?(name) }
-          collection = @pages.select do |page|
-            page["_type"] == name
-          end
+        collection.map!(&:to_hash)
+      end
 
-          collection.map!(&:to_hash)
+      def paginated_collection(name)
+        potential_collection = @site.paginated_collections[name].last
+        if potential_collection.respond_to? :at_end?
+          potential_collection.rewind_list! if potential_collection.at_end?
+          return potential_collection
+        end
 
-          if @site.paginated_collection?(plural_name)
-            per_page = @site.paginated_collections[plural_name]
-            @paginated = collection = collection.paginate(per_page)
-          end
+        per_page = @site.paginated_collections[name].first
+        collection = lookup_resource_collection(name)
 
-          collection
+        collection.paginate(per_page).tap do |coll|
+          @site.paginated_collections[name] << coll
+        end
+      end
+
+      def resource_collection(name)
+        lookup_resource_collection(name)
+      end
+
+      def method_missing(msg,*args)
+        name = msg.to_s
+        parsed_name = Inflecto.singularize(name).sub(/paginated_/, "")
+
+        valid_page = @pages.any? { |page| page.has_value?(parsed_name) }
+
+        if valid_page and name.start_with? "paginated_"
+          return paginated_collection(parsed_name)
+        elsif valid_page
+          return resource_collection(name)
         else
           super
         end
@@ -91,8 +107,8 @@ module Staticly
       end
 
       def self.paginate_collection(collection, per_page)
-        @paginated_collections ||= {}
-        @paginated_collections.merge!(collection => per_page)
+        @paginated_collections ||= Hash.new([])
+        @paginated_collections[collection] << per_page
       end
 
       def self.paginated_collections

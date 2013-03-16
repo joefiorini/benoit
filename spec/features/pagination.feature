@@ -23,7 +23,7 @@ Feature: Content Pagination
     posts_per_page: 10
     ---
 
-    {% for post in site.posts | sort: "page_num" %}{{post.content}}
+    {% for post in site.paginated_posts | sort: "page_num" %}{{post.content}}
     {% endfor %}
     """
     When I build the site
@@ -37,7 +37,7 @@ Feature: Content Pagination
     posts_per_page: 5
     ---
 
-    {% for post in site.posts | sort: "page_num" %}{{post.content}}
+    {% for post in site.paginated_posts | sort: "page_num" %}{{post.content}}
     {% endfor %}
     """
     When I build the site
