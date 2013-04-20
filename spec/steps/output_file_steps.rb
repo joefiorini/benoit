@@ -6,7 +6,7 @@ module OutputFileSteps
   end
 
   step "the output file should only have content:" do |content|
-    step 'the output file "%s" should have content:' % @page.name, content
+    step 'the output file "%s" should only have content:' % @page.name, content
   end
 
   step "the output file :file_name should only contain the :ordinal :num :type" do |file_name,ordinal,num,type|

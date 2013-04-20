@@ -10,11 +10,14 @@ Feature: Javascript Files
     """
     And a file named "js/b.js" with content:
     """
-    require("a.js");
     var doo = "dah";
     """
     When I build the site
     Then the output file "js/app.js" should exist
+    And the output file "js/app.js" should only have content:
+    """
+    var blah = "diddy";var doo = "dah";
+    """
     And "a.js" should not exist in the output site
     And "b.js" should not exist in the output site
 

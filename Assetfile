@@ -13,13 +13,6 @@ input Dir.pwd do
   end
 
   match "**/*.js" do
-    filter Rake::Pipeline::Web::Filters::MinispadeFilter, string: true, module_id_generator: ->(input){
-      id = input.path.dup
-      id.sub! /.*\/rake-pipeline-\d+-tmp-\d+\//, "/"
-      id.sub! Dir.pwd, ""
-      id.sub! /\.js/, ""
-      id
-    }
     concat do |input|
       directory = File.dirname(input)
       "#{directory}/app.js"
@@ -45,10 +38,6 @@ input Dir.pwd do
   match "**/*.html" do
     filter Staticly::Filters::ContentPageFilter
     filter Staticly::Filters::CadenzaFilter
-  end
-
-  match "**/*" do
-      copy
   end
 
 end
