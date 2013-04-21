@@ -13,7 +13,7 @@ require 'cadenza/context_object'
 module Benoit
   class SiteContext
 
-    class ContextObject < Cadenza::ContextObject
+    class ContextObject < ::Cadenza::ContextObject
       def initialize(site)
         @site = site
         @pages = site.pages
