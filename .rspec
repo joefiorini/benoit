@@ -1,1 +1,1 @@
--I ./lib/staticly -I ./spec/support -I ./vendor/rake-pipeline/lib -fd
+-I ./lib/benoit -I ./spec/support -I ./vendor/rake-pipeline/lib -fd

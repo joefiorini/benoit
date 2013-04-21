@@ -1,4 +1,4 @@
-Feature: staticly build
+Feature: benoit build
 
   Background:
     Given a site
@@ -7,7 +7,7 @@ Feature: staticly build
     When I build the site
     Then a directory named "_build" should exist
 
-  Scenario: Defaults cache path to "~/.staticly/tmpcache/{site}"
+  Scenario: Defaults cache path to "~/.benoit/tmpcache/{site}"
     When I build the site
     Then a cache directory should exist for that site
 
@@ -26,12 +26,12 @@ Feature: staticly build
 
   @backlog
   Scenario: Override default output path
-    When I run `staticly build --output-path _compiled`
+    When I run `benoit build --output-path _compiled`
     Then an empty directory named "_compiled" should exist
 
   @backlog
   Scenario: Override default cache path
-    When I run `staticly build --cache-path _cache`
+    When I run `benoit build --cache-path _cache`
     Then an empty directory named "_cache" should exist
 
   Scenario: Builds a single file
@@ -39,7 +39,7 @@ Feature: staticly build
     """
     <h1>Hello World</h1>
     """
-    When I run `staticly build`
+    When I run `benoit build`
     Then the output file "index.html" should have content:
     """
     <h1>Hello World</h1>

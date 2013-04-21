@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'rake-pipeline'
-require 'staticly/filters'
-require 'staticly/page'
-require 'staticly/compiler_error'
+require 'benoit/filters'
+require 'benoit/page'
+require 'benoit/compiler_error'
 
-describe Staticly::Filters::SassFilter do
+describe Benoit::Filters::SassFilter do
   MemoryFileWrapper ||= Rake::Pipeline::SpecHelpers::MemoryFileWrapper
   MemoryManifest ||= Rake::Pipeline::SpecHelpers::MemoryManifest
   FileWrapper ||= Rake::Pipeline::FileWrapper

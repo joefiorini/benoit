@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'staticly/page'
-require 'staticly/site_context'
-require 'staticly/utils/paginated_list'
+require 'benoit/page'
+require 'benoit/site_context'
+require 'benoit/utils/paginated_list'
 
-include Staticly
+include Benoit
 
 describe SiteContext do
 

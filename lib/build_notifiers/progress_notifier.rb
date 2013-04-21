@@ -1,6 +1,6 @@
 module BuildNotifiers
   include Rake::Pipeline::Web::Filters
-  include Staticly::Filters
+  include Benoit::Filters
 
   FILTER_PHASES = {
     none: [],
@@ -30,7 +30,7 @@ module BuildNotifiers
     end
 
     def self.notify(phase)
-      if Staticly.config.output_mode == :app
+      if Benoit.config.output_mode == :app
         $stdout.puts({ type: "progress", name: phase}.to_json)
       else
         puts "Phase complete: #{phase}"

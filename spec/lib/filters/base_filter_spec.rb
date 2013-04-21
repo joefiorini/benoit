@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'rake-pipeline'
-require 'staticly/filters/base_filter'
-require 'staticly/page'
+require 'benoit/filters/base_filter'
+require 'benoit/page'
 
-describe Staticly::Filters::BaseFilter do
+describe Benoit::Filters::BaseFilter do
   MemoryFileWrapper ||= Rake::Pipeline::SpecHelpers::MemoryFileWrapper
   MemoryManifest ||= Rake::Pipeline::SpecHelpers::MemoryManifest
 

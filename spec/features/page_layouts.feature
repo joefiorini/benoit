@@ -17,7 +17,7 @@ Feature: Page Layouts
       {% block content %}{% endblock %}
     </section>
     """
-    When I run `staticly build`
+    When I run `benoit build`
     Then the output file "index.html" should have content:
     """
     <section id="main">

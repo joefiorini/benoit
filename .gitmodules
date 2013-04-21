@@ -1,0 +1,3 @@
+[submodule "vendor/rake-pipeline"]
+	path = vendor/rake-pipeline
+	url = git://github.com/joefiorini/rake-pipeline.git

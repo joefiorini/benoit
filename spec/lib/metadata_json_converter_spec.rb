@@ -1,5 +1,5 @@
-require "staticly/page_metadata/store"
-require "staticly/page_metadata/json_converter"
+require "benoit/page_metadata/store"
+require "benoit/page_metadata/json_converter"
 
 RSpec::Matchers.define :contain_page do |expected|
   match do |actual|
@@ -14,8 +14,8 @@ RSpec::Matchers.define :contain_page do |expected|
   end
 end
 
-include Staticly::PageMetadata
-describe Staticly::PageMetadata do
+include Benoit::PageMetadata
+describe Benoit::PageMetadata do
 
   let(:index_html_metadata) do
     { "title" => "blah", "attr1" => "val1" }
@@ -38,7 +38,7 @@ describe Staticly::PageMetadata do
 
     it "loads all metadata into cache" do
       JsonConverter.import!(json)
-      store = Staticly::PageMetadata::Store.current
+      store = Benoit::PageMetadata::Store.current
       expect(store).to contain_page("index.html").with_metadata(index_html_metadata)
       expect(store).to contain_page("about.html").with_metadata(about_html_metadata)
     end

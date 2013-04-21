@@ -19,7 +19,7 @@ Feature: Site Context
     This is a test
     """
     And an empty file named "_layouts/_post.html"
-    When I run `staticly build`
+    When I run `benoit build`
     Then the output file "index.html" should have content:
     """
     <a href="/entries/post.html">Testing Post</a>
@@ -47,7 +47,7 @@ Feature: Site Context
     This is the content
     """
     And an empty file named "_layouts/_post.html"
-    When I run `staticly build`
+    When I run `benoit build`
     Then the output file "index.html" should have content:
     """
     This is the content

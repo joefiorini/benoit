@@ -1,3 +1,4 @@
+require 'yaml'
 class TestSite
   include Aruba::Api
   attr_reader :name
@@ -55,7 +56,7 @@ class Page
 
 end
 
-module StaticlySteps
+module BenoitSteps
   extend Turnip::DSL
 
   def create_file_for_page(page, include_metadata=true)
@@ -71,9 +72,9 @@ module StaticlySteps
     step 'I remove the file "%s"' % page.name
   end
 
-  step "I see the current Staticly version" do
-    require_relative "../../lib/staticly/version"
-    assert_partial_output(Staticly::VERSION, all_output)
+  step "I see the current Benoit version" do
+    require_relative "../../lib/benoit/version"
+    assert_partial_output(Benoit::VERSION, all_output)
   end
 
   step "a site" do
@@ -89,7 +90,7 @@ module StaticlySteps
   end
 
   step "a cache directory should exist for that site" do
-    path = File.expand_path(File.join("~", ".staticly", "tmpcache", @site.name))
+    path = File.expand_path(File.join("~", ".benoit", "tmpcache", @site.name))
     step 'a directory named "%s" should exist' % path
   end
 
@@ -99,11 +100,11 @@ module StaticlySteps
   end
 
   step "I build the site" do
-    step "I successfully run `staticly build`"
+    step "I successfully run `benoit build`"
   end
 
   step "I build the site with the flag :flag" do |flag|
-    step "I successfully run `staticly build #{flag}`"
+    step "I successfully run `benoit build #{flag}`"
   end
 
   step ":n files containing metadata:" do |n, yaml_snippet|

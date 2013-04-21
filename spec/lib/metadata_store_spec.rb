@@ -1,9 +1,9 @@
 require "json"
 require "spec_helper"
 require "spec_helpers/file_helpers"
-require "staticly/page_metadata/store"
-require "staticly/page_metadata/container"
-require "staticly/page_metadata/parser"
+require "benoit/page_metadata/store"
+require "benoit/page_metadata/container"
+require "benoit/page_metadata/parser"
 
 class InputWrapper < Struct.new(:path, :read)
 end
@@ -18,7 +18,7 @@ RSpec::Matchers.define :have_metadata do |expected|
   end
 end
 
-describe Staticly::PageMetadata::Store do
+describe Benoit::PageMetadata::Store do
   include FileHelpers
 
   let(:content) do

@@ -1,6 +1,6 @@
-require 'staticly/pipeline/dsl_extensions'
+require 'benoit/pipeline/dsl_extensions'
 
-before_filter Staticly::Filters::MetadataCleaner
+before_filter Benoit::Filters::MetadataCleaner
 
 input Dir.pwd do
 
@@ -9,7 +9,7 @@ input Dir.pwd do
   reject ".gitignore"
 
   match "**/*{.markdown,.md,.mkdown,.mdown}" do
-    filter Staticly::Filters::MarkdownFilter
+    filter Benoit::Filters::MarkdownFilter
   end
 
   match "**/*.js" do
@@ -30,14 +30,14 @@ input Dir.pwd do
   end
 
   match "*.scss" do
-    filter Staticly::Filters::SassFilter, additional_load_paths: ["styles", "css"]
+    filter Benoit::Filters::SassFilter, additional_load_paths: ["styles", "css"]
   end
 
   needs_pagination "*.html"
 
   match "**/*.html" do
-    filter Staticly::Filters::ContentPageFilter
-    filter Staticly::Filters::CadenzaFilter
+    filter Benoit::Filters::ContentPageFilter
+    filter Benoit::Filters::CadenzaFilter
   end
 
 end

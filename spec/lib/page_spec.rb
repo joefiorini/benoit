@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'staticly/page'
+require 'benoit/page'
 
-describe Staticly::Page do
+describe Benoit::Page do
 
   let(:metadata) { { "blah" => "diddy" } }
   subject { described_class.new(metadata) }
