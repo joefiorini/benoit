@@ -5,7 +5,7 @@ spec = Gem::Specification.new do |s|
   s.version = Benoit::VERSION
   s.author = 'Joe Fiorini'
   s.email = 'joe@joefiorini.com'
-  s.homepage = 'http://static.ly'
+  s.homepage = 'http://github.com/joefiorini/benoit'
   s.platform = Gem::Platform::RUBY
   s.summary = 'The CLI interface behind the Benoit Mac app'
 
