@@ -1,3 +1,3 @@
 module Benoit
-  VERSION = "1.0.0.alpha.2"
+  VERSION = "0.1.0"
 end
