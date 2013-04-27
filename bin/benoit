@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
 $:.unshift File.expand_path("../../bundle", __FILE__)
 $:.unshift File.expand_path("../../lib", __FILE__)
-
-# Force bundler to load standalone bundle
-# even if it's already loaded
-load 'bundler/setup.rb'
+$:.unshift File.expand_path("../../vendor/frontmatter/lib", __FILE__)
+$:.unshift File.expand_path("../../vendor/rake-pipeline/lib", __FILE__)
 
 require 'benoit'
 require 'gli'
