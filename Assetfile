@@ -5,8 +5,20 @@ before_filter Benoit::Filters::MetadataCleaner
 input Dir.pwd do
 
   reject "_*"
-  reject ".git"
-  reject ".gitignore"
+  reject "_build/**/*"
+
+  default_ignores = %w(.git .gitignore Gemfile Gemfile.lock .bundle)
+
+  ignores =
+    if File.exist?(Benoit.config.ignorefile)
+      ignores = File.read(Benoit.config.ignorefile).split("\n")
+    else
+      []
+    end
+
+  ignores.concat(default_ignores).each  do |ignored|
+    reject ignored
+  end
 
   match "**/*{.markdown,.md,.mkdown,.mdown}" do
     filter Benoit::Filters::MarkdownFilter

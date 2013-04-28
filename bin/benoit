@@ -36,6 +36,10 @@ command :build do |c|
   c.desc 'Clean up (delete) any existing build files for this site before building'
   c.switch :clean
 
+  c.desc 'Name of file containing files that should not be copied or processed to output directory'
+  c.default_value '.benoitignore'
+  c.flag [:g, :"ignorefile"]
+
   c.desc 'Describe a flag to build'
   c.default_value 'default'
   c.flag :f
@@ -49,6 +53,7 @@ command :build do |c|
     Dir.chdir(site_path) do
       Benoit.configure do |config|
         config.clean_before_build = options[:clean]
+        config.ignorefile = options[:"ignorefile"]
       end
       project = Benoit::PipelineProject.new(assetfile_path, Benoit.config.output_path, Benoit.config.cache_path)
       project.invoke

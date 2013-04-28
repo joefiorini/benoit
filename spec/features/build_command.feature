@@ -41,6 +41,19 @@ Feature: benoit build
     after
     """
 
+  Scenario: Does not copy any files in .benoitignore
+    Given a file named ".benoitignore" with content:
+    """
+    a.sh
+    """
+    And a file named "a.sh" with content:
+    """
+    testing
+    """
+    When I build the site
+    Then the file "a.sh" should not exist in the output site
+    And the file ".benoitignore" should not exist in the output site
+
   @backlog
   Scenario: Override default output path
     When I run `benoit build --output-path _compiled`

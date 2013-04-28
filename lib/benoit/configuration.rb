@@ -3,7 +3,7 @@ module Benoit
 
     class Config
 
-      attr_accessor :output_mode, :cache_path, :output_path, :site_path
+      attr_accessor :output_mode, :cache_path, :output_path, :site_path, :ignorefile
       attr_writer :clean_before_build
 
       def clean_before_build?

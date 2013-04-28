@@ -177,6 +177,11 @@ module BenoitSteps
     write_file("img.png", img_content)
   end
 
+  step "the file :named should not exist in the output site" do |filename|
+    path = File.join("_build", filename)
+    step 'a file named "%s" should not exist' % path
+  end
+
   step "that file should not exist in the output site" do
     path = File.join("_build", @page.name)
     step 'a file named "%s" should not exist' % path
