@@ -58,7 +58,9 @@ module Benoit
         elsif valid_page
           return resource_collection(name)
         else
-          super
+          # The key we are looking for has no content,
+          # therefore we can return an empty array
+          []
         end
 
       end

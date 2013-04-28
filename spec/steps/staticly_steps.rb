@@ -145,7 +145,7 @@ module BenoitSteps
     create_file_for_page @page
   end
 
-  step "a file wih an extension of :extname with content:" do |extname, content|
+  step "a file with an extension of :extname with content:" do |extname, content|
     @page = Page.new
     @page.generate_name(extname)
     @site.add_page @page

@@ -24,6 +24,23 @@ Feature: benoit build
     And I build the site with the flag "--clean"
     Then that file should not exist in the output site
 
+  Scenario: Builds without any content pages
+    Given a file with an extension of ".html" with content:
+    """
+    before
+    {% for post in site.posts %}
+      blah
+    {% endfor %}
+    after
+    """
+    When I build the site
+    Then the output file should only have content:
+    """
+    before
+
+    after
+    """
+
   @backlog
   Scenario: Override default output path
     When I run `benoit build --output-path _compiled`
