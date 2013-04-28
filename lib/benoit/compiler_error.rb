@@ -7,9 +7,15 @@
 #
 
 class StandardError
-  def to_json
-    { message: "Benoit has encountered an internal error. Please contact @benoitapp on Twitter to resolve this problem.", type: "error" }.to_json
+
+  def message
+    @message || "Staticly has encountered an internal error. Please contact @staticlyapp on Twitter to resolve this problem."
   end
+
+  def type
+    "error"
+  end
+
 end
 
 module Benoit
