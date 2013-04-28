@@ -79,7 +79,7 @@ Feature: Site Context
 
   Scenario: Metadata contains rendered Markdown
     Given a site
-    And a file wih an extension of ".markdown" with content:
+    And a file with an extension of ".markdown" with content:
     """
     ---
     type: post
