@@ -24,12 +24,15 @@ input Dir.pwd do
     filter Benoit::Filters::MarkdownFilter
   end
 
-  match "**/*.js" do
-    concat do |input|
-      directory = File.dirname(input)
-      "#{directory}/app.js"
-    end
-  end
+  # Not going to do this until I can make it optional.
+  # Some people actually don't want all javascript loaded
+  # on every page. Can you believe that?
+  # match "**/*.js" do
+  #   concat do |input|
+  #     directory = File.dirname(input)
+  #     "#{directory}/app.js"
+  #   end
+  # end
 
   match "**/*.handlebars" do
     filter Rake::Pipeline::Web::Filters::HandlebarsFilter
