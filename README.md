@@ -12,3 +12,7 @@ More documentation coming soon.
 - LivingSocial for open sourcing their toolchain via [rake-pipeline](http://github.com/livingsocial/rake-pipeline)
 - The [rake-pipeline](http://github.com/livingsocial/rake-pipeline) team for providing a great tool for building static assets
 - [Will Howard](http://github.com/whoward) for building/maintaining [Cadenza](http://github.com/whoward/cadenza) and answering my questions while building this!
+
+### Updates
+
+May 05, 2013 (v0.2.1) - Started tracking updates; removed Javascript concatenation until I get a way to make it configurable
