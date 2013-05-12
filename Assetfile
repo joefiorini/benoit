@@ -17,7 +17,11 @@ input Dir.pwd do
     end
 
   ignores.concat(default_ignores).each  do |ignored|
-    reject ignored
+    if File.directory? ignored
+      reject "#{ignored}/**/*"
+    else
+      reject ignored
+    end
   end
 
   match "**/*{.markdown,.md,.mkdown,.mdown}" do
