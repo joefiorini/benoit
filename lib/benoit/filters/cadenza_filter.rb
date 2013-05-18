@@ -13,7 +13,7 @@ class Benoit::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
     def generate_output(inputs, output)
 
-      site_context = current_site.to_context
+      # site_context = current_site.to_context
 
         inputs.each do |input|
             load_paths = [input.root, Dir.pwd, "#{Dir.pwd}/_layouts"]
@@ -24,20 +24,21 @@ class Benoit::Filters::CadenzaFilter < Rake::Pipeline::Filter
               ::Cadenza::BaseContext.add_load_path load_path
             end
 
-            page = current_site[input.path].to_hash
+            # page = current_site[input.path].to_hash
 
             # Leave the original page for paginated pages blank
             #  otherwise we will get an "iteration reached an end" error
             #  from trying to iterate past the end of the enumerator
-            if input.path !~ /\d+.html/ && page.keys.any? { |key| key =~ /\w+_per_page/ }
-              output.write("")
-              next
-            end
+            # if input.path !~ /\d+.html/ && page.keys.any? { |key| key =~ /\w+_per_page/ }
+            #   output.write("")
+            #   next
+            # end
 
-            context_hash = {
-                "site" => site_context,
-                "page" => page
-            }
+            # context_hash = {
+            #     "site" => site_context,
+            #     "page" => page
+            # }
+            context_hash = {}
 
             begin
               compiled = ::Cadenza.render_template input.path, context_hash

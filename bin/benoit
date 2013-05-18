@@ -65,11 +65,24 @@ command :build do |c|
   end
 end
 
-desc 'Describe rebuild here'
-arg_name 'Describe arguments to rebuild here'
-command :rebuild do |c|
+command :server do |c|
+
+  c.desc 'Name of file containing files that should not be copied or processed to output directory'
+  c.default_value '.benoitignore'
+  c.flag [:g, :"ignorefile"]
+
   c.action do |global_options,options,args|
-    puts "rebuild command ran"
+    site_path = global_options[:"input-path"] || Dir.pwd
+    assetfile_path = File.join(File.expand_path("../../", __FILE__), "Assetfile")
+    Dir.chdir(site_path) do
+      Benoit.configure do |config|
+        puts "specified ignorefile: #{options[:"ignorefile"].inspect}"
+        config.ignorefile = options[:"ignorefile"]
+      end
+      require 'benoit/server'
+      project = Benoit::PipelineProject.new(assetfile_path, Benoit.config.output_path, Benoit.config.cache_path)
+      Benoit::Server.new(project).start
+    end
   end
 end
 

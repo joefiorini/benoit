@@ -24,36 +24,36 @@ module Benoit
       if Benoit.config.clean_before_build?
         Benoit::Cleaner.run
       end
-        project.pipelines.each do |pipeline|
-          pipeline.register_invocation_hook :after_task, BuildNotifiers::FileBuiltNotifier
-          pipeline.register_invocation_hook :before_filter, BuildNotifiers::ProgressNotifier
-          pipeline.register_invocation_hook :filters_ready, ->(pipeline){
-            require 'ostruct'
-            paths_map = {}
-            pipeline.output_files.each do |output|
-              input = output.original_inputs.first
+        # project.pipelines.each do |pipeline|
+        #   pipeline.register_invocation_hook :after_task, BuildNotifiers::FileBuiltNotifier
+        #   pipeline.register_invocation_hook :before_filter, BuildNotifiers::ProgressNotifier
+        #   pipeline.register_invocation_hook :filters_ready, ->(pipeline){
+        #     require 'ostruct'
+        #     paths_map = {}
+        #     # pipeline.output_files.each do |output|
+        #     #   input = output.original_inputs.first
 
-              wrapper = OpenStruct.new(path: output.path, read: input.read, fullpath: input.fullpath)
+        #     #   wrapper = OpenStruct.new(path: output.path, read: input.read, fullpath: input.fullpath)
 
-              paths_map[input.path] = output.path
+        #     #   paths_map[input.path] = output.path
 
-              PageMetadata::Store.current[wrapper]
+        #     #   PageMetadata::Store.current[wrapper]
 
-            end
+        #     # end
 
-            current_site = CurrentSite.load
+        #     current_site = CurrentSite.load
 
-            current_site.paths_map = paths_map
+        #     current_site.paths_map = paths_map
 
-            # Load ALL filters (including filters within filters)
-            filters = recursively_load_filters_from_pipeline(pipeline)
-            filters.each do |filter|
-              if filter.respond_to? :current_site=
-                filter.current_site = current_site
-              end
-            end
-          }
-        end
+        #     # Load ALL filters (including filters within filters)
+        #     filters = recursively_load_filters_from_pipeline(pipeline)
+        #     filters.each do |filter|
+        #       if filter.respond_to? :current_site=
+        #         filter.current_site = current_site
+        #       end
+        #     end
+        #   }
+        # end
         project.invoke
     end
 
