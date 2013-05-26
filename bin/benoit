@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
-$:.unshift File.expand_path("../../bundle", __FILE__)
-$:.unshift File.expand_path("../../lib", __FILE__)
 $:.unshift File.expand_path("../../vendor/frontmatter/lib", __FILE__)
 $:.unshift File.expand_path("../../vendor/rake-pipeline/lib", __FILE__)
+require 'bundler/setup'
 
 require 'benoit'
 require 'gli'
@@ -119,7 +118,7 @@ def default_output_path
 end
 
 def default_cache_path(site_name)
-  File.expand_path("~/.benoit/tmpcache/#{site_name}")
+  File.expand_path("/tmp/.benoit/tmpcache/#{site_name}")
 end
 
 post do |global,command,options,args|
