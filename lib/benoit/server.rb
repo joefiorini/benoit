@@ -3,8 +3,9 @@ require 'rack/server'
 
 module Benoit
   class Server < Rack::Server
-    def initialize(project)
+    def initialize(project, options={})
       @project = project
+      super options
     end
 
     def app

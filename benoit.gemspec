@@ -37,6 +37,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency "rake-pipeline-web-filters", "~> 0.7.0"
   s.add_dependency "kronic", "~> 1.1.3"
   s.add_dependency "stamp", "~> 0.5.0"
+  s.add_dependency "thin", "~> 1.5.1"
 
 
   s.add_development_dependency "rspec"

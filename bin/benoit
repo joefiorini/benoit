@@ -81,7 +81,7 @@ command :server do |c|
       end
       require 'benoit/server'
       project = Benoit::PipelineProject.new(assetfile_path, Benoit.config.output_path, Benoit.config.cache_path)
-      Benoit::Server.new(project).start
+      Benoit::Server.new(project, daemonize: false, server: 'thin').start
     end
   end
 end
