@@ -1,6 +1,6 @@
 require 'benoit/pipeline/dsl_extensions'
 
-before_filter Benoit::Filters::MetadataCleaner
+# before_filter Benoit::Filters::MetadataCleaner
 
 input Dir.pwd do
 
@@ -24,9 +24,9 @@ input Dir.pwd do
     end
   end
 
-  match "**/*{.markdown,.md,.mkdown,.mdown}" do
-    filter Benoit::Filters::MarkdownFilter
-  end
+  # match "**/*{.markdown,.md,.mkdown,.mdown}" do
+  #   filter Benoit::Filters::MarkdownFilter
+  # end
 
   # Not going to do this until I can make it optional.
   # Some people actually don't want all javascript loaded
@@ -55,7 +55,7 @@ input Dir.pwd do
   needs_pagination "*.html"
 
   match "**/*.html" do
-    filter Benoit::Filters::ContentPageFilter
+    # filter Benoit::Filters::ContentPageFilter
     filter Benoit::Filters::CadenzaFilter
   end
 
