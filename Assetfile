@@ -2,6 +2,19 @@ require 'benoit/pipeline/dsl_extensions'
 
 # before_filter Benoit::Filters::MetadataCleaner
 
+class EverythingElse < Rake::Pipeline::Filter
+
+  processes_binary_files
+
+  def generate_output(inputs, output)
+    inputs.each do |input|
+      output.write input.read
+    end
+  end
+end
+
+after_filter EverythingElse
+
 input Dir.pwd do
 
   reject "_*"
