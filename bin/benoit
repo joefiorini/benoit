@@ -70,10 +70,13 @@ command :server do |c|
   c.default_value '.benoitignore'
   c.flag [:g, :"ignorefile"]
 
-  STDOUT.sync = true
-  STDERR.sync = true
-
   c.action do |global_options,options,args|
+
+    STDOUT.sync = true
+    STDERR.sync = true
+
+    Benoit::Logger.notice "starting server.."
+
     site_path = global_options[:"input-path"] || Dir.pwd
     assetfile_path = File.join(File.expand_path("../../", __FILE__), "Assetfile")
     Dir.chdir(site_path) do
