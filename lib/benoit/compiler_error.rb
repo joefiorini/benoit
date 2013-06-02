@@ -9,7 +9,7 @@
 class StandardError
 
   def message
-    @message || "Staticly has encountered an internal error. Please contact @staticlyapp on Twitter to resolve this problem."
+    @message# || "Staticly has encountered an internal error. Please contact @staticlyapp on Twitter to resolve this problem."
   end
 
   def type
@@ -29,6 +29,10 @@ module Benoit
             @output = output
             @env = env
             @original_error = original_error
+        end
+
+        def message
+          @message || (@original_error && @original_error.message)
         end
 
         def to_json
