@@ -6,9 +6,13 @@ class EverythingElse < Rake::Pipeline::Filter
 
   processes_binary_files
 
+  PROCESSED = %w(js html css scss)
+
   def generate_output(inputs, output)
     inputs.each do |input|
-      output.write input.read
+      unless PROCESSED.include?(File.extname(input.path))
+        output.write input.read
+      end
     end
   end
 end
