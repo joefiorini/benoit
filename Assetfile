@@ -69,8 +69,6 @@ input Dir.pwd do
     filter Benoit::Filters::SassFilter, additional_load_paths: ["styles", "css"]
   end
 
-  needs_pagination "*.html"
-
   match "**/*.html" do
     # filter Benoit::Filters::ContentPageFilter
     filter Benoit::Filters::CadenzaFilter
