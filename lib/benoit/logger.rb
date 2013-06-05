@@ -16,7 +16,7 @@ module Benoit
       message = <<-EOM
       Benoit encountered an error.
 
-      #{ex.message}
+      #{ex}
       #{sub_message}
 
       #{ENV.map { |k,v| "#{k}=#{v}" }.join("\n")}
