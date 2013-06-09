@@ -2,7 +2,8 @@ module Benoit
   class Server
     class Remote
 
-      def initialize
+      def initialize(project)
+        @project = project
       end
 
       def call(env)
@@ -12,6 +13,9 @@ module Benoit
         when '/clean'
           Benoit::Cleaner.run
           body = "cleaned"
+        when '/build'
+          @project.invoke
+          body = "built"
         end
 
         code = 200 if body

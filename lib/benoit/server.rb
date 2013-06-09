@@ -20,7 +20,7 @@ module Benoit
         use Rack::ShowExceptions
         use CustomExceptionHandler
         map "/_remote" do
-          run Benoit::Server::Remote.new
+          run Benoit::Server::Remote.new(project)
         end
         run Rake::Pipeline::Middleware.new DEFAULT_APP, project
       end.to_app
