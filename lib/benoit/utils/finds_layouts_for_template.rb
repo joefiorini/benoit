@@ -16,20 +16,8 @@ module Benoit::Utils
     class FindsLayoutsForTemplate
 
 
-        FrontMatterLookupStrategy = ->(input) {
-            input =
-              if input.respond_to? :final_output and input.final_output
-                input.final_output
-              else
-                input
-              end
-              metadata = Benoit::PageMetadata::Store.current[input]
-              return unless metadata
-              metadata["layout"] || metadata["template"]
-        }
-
         CadenzaInheritanceLookupStrategy = ->(input) {
-            extends_pattern = /\{% extends "([\.\w_-]+)" %\}/
+            extends_pattern = /\{% extends "([\.\w-]+)" %\}/
             return unless File.exist?(input.path)
             match_data = File.read(input.path).match(extends_pattern)
             return unless match_data
@@ -58,8 +46,8 @@ module Benoit::Utils
             if parent_template
                 normalized_path = NormalizesPathToTemplate(parent_template, load_paths)
                 template_list << normalized_path
-                input = Rake::Pipeline::FileWrapper.new(Dir.pwd, normalized_path)
                 # TODO: Not a fan of Dir.pwd here, but it will always work. Is there a better way to get the correct input root?
+                input = Rake::Pipeline::FileWrapper.new(Dir.pwd, normalized_path)
                 recursively_lookup_layouts_for_file(input, template_list)
             end
 
@@ -67,7 +55,7 @@ module Benoit::Utils
         end
 
         def call_strategy_for_file(input, root)
-            strategies = [FrontMatterLookupStrategy]
+            strategies = [CadenzaInheritanceLookupStrategy]
             strategies.inject(nil) do |parent_template,strategy|
                 strategy.call(input) || parent_template
             end

@@ -64,14 +64,12 @@ class Benoit::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
       def page_layouts_for_input(input)
           @page_layouts[input.path] ||=
-              FindsLayoutsForTemplate(input.path, root: input.root, load_paths: ["_layouts"])
+              FindsLayoutsForTemplate(input, root: input.root, load_paths: ["_layouts"])
       end
 
       def additional_dependencies(input=nil)
           if input
-              Dir["**/*.markdown"].map do |f|
-                  f.gsub input.root, ""
-              end
+             page_layouts_for_input(input)
           else
               []
           end
