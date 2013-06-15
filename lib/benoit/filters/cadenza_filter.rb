@@ -46,11 +46,15 @@ class Benoit::Filters::CadenzaFilter < Rake::Pipeline::Filter
               error = Benoit::FileMissingError.new(ex.message, nil, input.path, ex)
               raise error
             rescue ::Cadenza::FilterNotDefinedError => ex
-              missing_filter = ex.message.scan(/undefined filter '([\w\-_]*)'/).flatten.first
+              missing_filter = ex.to_s.scan(/undefined filter '([\w\-]*)'/).flatten.first
               error = Benoit::CompilerError.new(nil, input.path, ex)
               error.message = "You used a filter named #{missing_filter.inspect}, but I could not find it. Maybe it's misspelled?"
               raise error
-            rescue ::Cadenza::Error => ex
+            rescue ::Cadenza::BlockNotDefinedError => ex
+              missing_block = ex.to_s.scan(/undefined block '([\w\-]*)'/).flatten.first
+              error = Benoit::CompilerError.new(nil, input.path, ex)
+              error.message = "You used a block named #{missing_block.inspect}, but I could not find it. Maybe it's misspelled?"
+              raise error
             end
 
             output.write compiled

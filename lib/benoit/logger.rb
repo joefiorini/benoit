@@ -33,7 +33,7 @@ module Benoit
       if Benoit.config.output_mode == :app
         $stderr.puts({ line_no: nil, message: ex.message, path: __FILE__ }.to_json)
       else
-        $stderr.puts ex.message
+        $stderr.puts ex.to_s
         $stderr.puts ex.backtrace
       end
     end
