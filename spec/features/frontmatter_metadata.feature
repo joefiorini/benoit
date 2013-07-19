@@ -1,5 +1,6 @@
 Feature: Site Context
 
+  @backlog
   Scenario: Groups posts by type
     Given a site named "subpages"
     And a file named "index.html" with content:
@@ -29,6 +30,7 @@ Feature: Site Context
   Scenario: Group arbitrary page types by type
 
 
+  @backlog
   Scenario: Loads content from markdown files
     Given a site named "test"
     And a file named "index.html" with content:
@@ -53,6 +55,7 @@ Feature: Site Context
     This is the content
     """
 
+  @backlog
   Scenario: Parses field named 'date' as a date object for reliable sorting
     Given a site
     And a file containing metadata:
@@ -75,25 +78,4 @@ Feature: Site Context
     """
     2012-12-12
     2022-04-13
-    """
-
-  Scenario: Metadata contains rendered Markdown
-    Given a site
-    And a file with an extension of ".markdown" with content:
-    """
-    ---
-    type: post
-    ---
-
-    [a link](http://www.example.com)
-    """
-    And a file named "index.html" with content:
-    """
-    {% for post in site.posts %}{{ post.content }}
-    {% endfor %}
-    """
-    When I build the site
-    Then the output file "index.html" should have content:
-    """
-    <a href="http://www.example.com">a link</a>
     """

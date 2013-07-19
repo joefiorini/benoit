@@ -7,7 +7,7 @@ Feature: benoit build
     When I build the site
     Then a directory named "_build" should exist
 
-  Scenario: Defaults cache path to "~/.benoit/tmpcache/{site}"
+  Scenario: Defaults cache path to "/tmp/.benoit/tmpcache/{site}"
     When I build the site
     Then a cache directory should exist for that site
 

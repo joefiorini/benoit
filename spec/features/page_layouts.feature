@@ -25,36 +25,12 @@ Feature: Page Layouts
     </section>
     """
 
-  Scenario: Reads layout from metadata in .html files
-    Given a file with an extension of ".html" containing metadata:
-    """
-    layout: _layout
-    """
-    And that file has content:
-    """
-    {% block content %}CONTENT{% endblock %}
-    """
-    And a layout named "_layout" with content:
-    """
-    !!!
-    {% block content %}{% endblock %}
-    !!!
-    """
-    When I build the site
-    Then the output file should have content:
-    """
-    !!!
-    CONTENT
-    !!!
-    """
-
+  @backlog
   Scenario: Doesn't require layouts prefixed with underscore
-    Given a file with an extension of ".html" containing metadata:
+    Given a file with an extension of ".html" with content:
     """
-    layout: layout
-    """
-    And that file has content:
-    """
+    {% extends "layout.html" %}
+
     {% block content %}CONTENT{% endblock %}
     """
     And a layout named "_layout" with content:

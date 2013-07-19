@@ -3,6 +3,7 @@ Feature: Javascript Files
   Background:
     Given a site
 
+  @backlog
   Scenario: Concatenates multiple scripts
     Given a file named "js/a.js" with content:
     """

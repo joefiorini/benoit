@@ -4,14 +4,9 @@ Feature: format_like Output Filter
     Given a site
 
   Scenario: Formats simple dates according to passed example
-    Given a file containing metadata:
+    Given a file with an extension of ".html" with content:
     """
-    date: 2012-12-23
-    type: post
-    """
-    And that file has content:
-    """
-    {{page.date|format_like:"March 23, 2012"}}
+    {{"2012-12-23"|format_like:"March 23, 2012"}}
     """
     When I build the site
     Then the output file should have content:

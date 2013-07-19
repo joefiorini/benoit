@@ -90,7 +90,7 @@ module BenoitSteps
   end
 
   step "a cache directory should exist for that site" do
-    path = File.expand_path(File.join("~", ".benoit", "tmpcache", @site.name))
+    path = File.expand_path(File.join("/tmp", ".benoit", "tmpcache", @site.name))
     step 'a directory named "%s" should exist' % path
   end
 
