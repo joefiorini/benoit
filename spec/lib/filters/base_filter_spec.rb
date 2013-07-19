@@ -14,11 +14,11 @@ describe Benoit::Filters::BaseFilter do
   let(:html_input) { "<html><head></head><body><h1>TESTING</h1></body></html>" }
 
   def input_file(name, content)
-    MemoryFileWrapper.new("/path/to/input", name, "UTF-8", Set.new([]), content)
+    MemoryFileWrapper.new("/path/to/input", name, "UTF-8", content)
   end
 
   def output_file(name)
-    MemoryFileWrapper.new("/path/to/output", name, "UTF-8", Set.new([]))
+    MemoryFileWrapper.new("/path/to/output", name, "UTF-8")
   end
 
   def setup_filter(filter, input_filename='index.html')

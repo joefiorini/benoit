@@ -24,11 +24,11 @@ describe Benoit::Filters::SassFilter do
 
   def input_file
     path = scss_input_path
-    FileWrapper.new(File.dirname(path), File.basename(path), "UTF-8", Set.new([]))
+    FileWrapper.new(File.dirname(path), File.basename(path), "UTF-8")
   end
 
   def output_file(name)
-    MemoryFileWrapper.new("/path/to/output", name, "UTF-8", Set.new([]))
+    MemoryFileWrapper.new("/path/to/output", name, "UTF-8")
   end
 
   def setup_filter(filter)

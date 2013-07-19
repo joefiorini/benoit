@@ -61,8 +61,8 @@ describe SiteContext::ContextObject do
 
   describe "for non-existant collections" do
     subject { context.blah }
-    it "raises an error" do
-      expect(->{subject}).to raise_error(NoMethodError)
+    it "returns an empty array" do
+      expect(subject).to eq([])
     end
   end
 
