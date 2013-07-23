@@ -1,24 +1,28 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'rspec' do
-  watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch('spec/spec_helper.rb')  { "spec" }
+group 'acceptance-tests' do
+  guard 'rspec', cli: '-O .rspec-turnip', turnip: true, spec_paths: ['spec/features'] do
 
-  # Rails example
-  watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
-  watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
-  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
-  watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
-  watch('config/routes.rb')                           { "spec/routing" }
-  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
+    watch('spec/turnip_helper.rb')  { "spec/features" }
 
-  # Capybara features specs
-  watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/features/#{m[1]}_spec.rb" }
+    watch(%r{^lib/(.+)\.rb$})     { "spec/features" }
 
-  # Turnip features and steps
-  watch(%r{^spec/features/(.+)\.feature$})
-  watch(%r{^spec/support/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/features' }
+    watch('Assetfile') { 'spec/features' }
+
+    # Turnip features and steps
+    watch(%r{^spec/features/(.+)\.feature$})
+    watch(%r{^spec/support/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/features' }
+  end
 end
 
+group 'unit-tests' do
+  guard 'rspec' do
+    watch(%r{^spec/.+_spec\.rb$})
+    watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
+    watch('spec/spec_helper.rb')  { "spec" }
+
+    watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }
+
+  end
+end
