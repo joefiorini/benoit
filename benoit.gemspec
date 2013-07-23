@@ -30,6 +30,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency "sass", "~> 3.2.0"
   s.add_dependency "multi_json", "~> 1.5.0"
   s.add_dependency "redcarpet", "~> 2.2.2"
+  s.add_dependency "kramdown", "~> 1.1.0"
   s.add_dependency "compass", "~> 0.13.alpha"
   s.add_dependency "chunky_png", "~> 1.2.0"
   s.add_dependency "inflecto", "~> 0.0.2"
@@ -49,5 +50,6 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency "pry-remote"
   s.add_development_dependency "guard"
   s.add_development_dependency "guard-rspec"
+  s.add_development_dependency "rb-fsevent", '~> 0.9'
 
 end

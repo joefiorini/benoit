@@ -28,24 +28,13 @@ describe Benoit::Filters::BaseFilter do
     filter.input_files = [input_file(input_filename, html_input)]
     filter.output_root= "/path/to/output"
     filter.rake_application = Rake::Application.new
-    filter.current_site = {}
     filter
-  end
-
-  def setup_final_outputs(filter)
-    filter.input_files.each_with_index do |input,i|
-      output = filter.output_files[i]
-      filter.current_site.merge!(input.path => { "content" => input.read })
-      filter.current_site.merge!(output.path => { "content" => input.read })
-    end
   end
 
   it "generates output directly from the input" do
     filter = setup_filter basic_filter.new
 
     expect(filter.output_files).to eq([output_file("index.html")])
-
-    setup_final_outputs(filter)
 
     tasks = filter.generate_rake_tasks
     tasks.each(&:invoke)
@@ -74,7 +63,7 @@ describe Benoit::Filters::BaseFilter do
 
     let(:path_writer) do
       Class.new(described_class) do
-        build_output do |page,input|
+        build_output do |input|
           input.path
         end
       end
@@ -83,8 +72,6 @@ describe Benoit::Filters::BaseFilter do
     it "gets output from calling builder" do
       filter = setup_filter builder_filter.new
 
-      setup_final_outputs(filter)
-
       tasks = filter.generate_rake_tasks
       tasks.each(&:invoke)
 
@@ -92,25 +79,9 @@ describe Benoit::Filters::BaseFilter do
       expect(file.body).to eq("blah")
     end
 
-    it "passes page object to builder" do
-      filter = setup_filter page_filter.new
-
-      setup_final_outputs(filter)
-
-      page = filter.current_site[filter.output_files.first.path]
-
-      tasks = filter.generate_rake_tasks
-      tasks.each(&:invoke)
-
-      file = MemoryFileWrapper.files["/path/to/output/index.html"]
-      expect(file.body).to eq(page["content"])
-    end
-
-    it "passes input to builder when needed" do
+    it "passes input to builder" do
       filter = setup_filter path_writer.new
       input = filter.input_files.first
-
-      setup_final_outputs(filter)
 
       tasks = filter.generate_rake_tasks
       tasks.each(&:invoke)

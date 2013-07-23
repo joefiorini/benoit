@@ -41,9 +41,9 @@ input Dir.pwd do
     end
   end
 
-  # match "**/*{.markdown,.md,.mkdown,.mdown}" do
-  #   filter Benoit::Filters::MarkdownFilter
-  # end
+  match "**/*{.markdown,.md,.mkdown,.mdown}" do
+    filter Benoit::Filters::MarkdownFilter
+  end
 
   # Not going to do this until I can make it optional.
   # Some people actually don't want all javascript loaded

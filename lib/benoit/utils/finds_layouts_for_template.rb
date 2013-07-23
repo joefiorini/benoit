@@ -16,21 +16,32 @@ module Benoit::Utils
     class FindsLayoutsForTemplate
 
 
-        CadenzaInheritanceLookupStrategy = ->(input) {
-            extends_pattern = /\{% extends "([\.\w-]+)" %\}/
-            return unless File.exist?(input.path)
-            match_data = File.read(input.path).match(extends_pattern)
-            return unless match_data
-            match_data.captures[0]
-        }
-
         attr_reader :root, :template_path, :load_paths, :input
 
+        def self.first_layout(content, options={})
+          FindsLayoutsForTemplate.new(content, options).lookup_layout
+        end
+
         def initialize(input, options)
-            @load_paths = options.delete(:load_paths) || [""]
-            @root = options.delete(:root)
-            @template_path = input
+          if input.respond_to? :path
             @input = input
+            @template_path = input
+          else
+            @content = input
+          end
+          @load_paths = options.delete(:load_paths) || [""]
+          @root = options.delete(:root)
+        end
+
+        def match_extends_line(content)
+          extends_pattern = /\{% extends "([\.\w-]+)" %\}/
+          match_data = content.match(extends_pattern)
+          return unless match_data
+          match_data.captures[0]
+        end
+
+        def lookup_layout
+          match_extends_line(@content)
         end
 
         def lookup_layouts
@@ -41,7 +52,7 @@ module Benoit::Utils
 
         def recursively_lookup_layouts_for_file(input, template_list=[])
 
-            parent_template = call_strategy_for_file input, root
+            parent_template = match_file input, root
 
             if parent_template
                 normalized_path = NormalizesPathToTemplate(parent_template, load_paths)
@@ -54,11 +65,10 @@ module Benoit::Utils
             template_list
         end
 
-        def call_strategy_for_file(input, root)
-            strategies = [CadenzaInheritanceLookupStrategy]
-            strategies.inject(nil) do |parent_template,strategy|
-                strategy.call(input) || parent_template
-            end
+        def match_file(input, root)
+          return unless File.exist?(input.path)
+          content = File.read(input.path)
+          match_extends_line(content)
         end
 
     end

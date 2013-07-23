@@ -27,16 +27,15 @@ module Benoit
 
       def generate_output(inputs, output)
         inputs.each do |input|
-          page = current_site[input.path]
-          content = build_output(page, input) if builder
-          output.write(content || page["content"])
+          content = build_output(input) if builder
+          output.write(content || input.read)
         end
       end
 
       private
 
-      def build_output(page, input)
-        builder.(page, input)
+      def build_output(input)
+        builder.(input)
       end
 
     end

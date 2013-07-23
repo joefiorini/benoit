@@ -16,6 +16,14 @@ describe Benoit::Filters::MarkdownFilter do
     EOS
   }
 
+  let(:markdown_extends_input) {
+    <<-EOS.unindent
+    {% extends "_layout.html" %}
+
+    [some link](http://www.example.com)
+    EOS
+  }
+
   let(:expected_output) {
     <<-EOS.unindent
     <p><a href="http://www.example.com">some link</a></p>
@@ -23,6 +31,14 @@ describe Benoit::Filters::MarkdownFilter do
     <p><strong>strong</strong>
     <em>em</em></p>
     EOS
+  }
+
+  let(:expected_extends_output) {
+    <<-EOS
+{% extends "_layout.html" %}
+
+<p><a href="http://www.example.com">some link</a></p>
+EOS
   }
 
   def input_file(name, content)
@@ -33,11 +49,11 @@ describe Benoit::Filters::MarkdownFilter do
     MemoryFileWrapper.new("/path/to/output", name, "UTF-8")
   end
 
-  def setup_filter(filter, input_filename='page.markdown')
+  def setup_filter(filter, input_filename='page.markdown', content=markdown_input)
     filter.file_wrapper_class = MemoryFileWrapper
     filter.manifest = MemoryManifest.new
     filter.last_manifest = MemoryManifest.new
-    filter.input_files = [input_file(input_filename, markdown_input)]
+    filter.input_files = [input_file(input_filename, content)]
     filter.output_root= "/path/to/output"
     filter.rake_application = Rake::Application.new
     filter
@@ -49,9 +65,6 @@ describe Benoit::Filters::MarkdownFilter do
     input_file = filter.input_files.first
     output_file = output_file("page.html")
 
-    page = { "content" => markdown_input }
-    filter.current_site = { input_file.path => page, output_file.path => page }
-
     expect(filter.output_files).to eq([output_file])
 
     tasks = filter.generate_rake_tasks
@@ -59,7 +72,17 @@ describe Benoit::Filters::MarkdownFilter do
 
     file = MemoryFileWrapper.files["/path/to/output/page.html"]
     expect(file.body).to eq(expected_output)
+  end
 
-    expect(page["content"]).to eq(expected_output)
+  it "keeps extends tag in place" do
+    filter = setup_filter described_class.new, 'page.markdown', markdown_extends_input
+
+    input_file = filter.input_files.first
+
+    tasks = filter.generate_rake_tasks
+    tasks.each(&:invoke)
+
+    file = MemoryFileWrapper.files["/path/to/output/page.html"]
+    expect(file.body).to eq(expected_extends_output)
   end
 end
