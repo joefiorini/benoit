@@ -1,3 +1,5 @@
+require "bundler/gem_tasks"
+
 task :features do
   exec "rspec -O .rspec-turnip spec/features"
 end
