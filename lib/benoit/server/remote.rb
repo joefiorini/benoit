@@ -21,7 +21,7 @@ module Benoit
         code = 200 if body
         body || (body, code = ["not found", 404])
 
-        [code, {"Content-Type" => "application/json"}, {response: body}.to_json]
+        [code, {"Content-Type" => "application/json"}, [{response: body}.to_json]]
       end
 
     end
