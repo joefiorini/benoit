@@ -1,4 +1,3 @@
-require 'redcarpet'
 require 'kramdown'
 require 'benoit/utils/finds_layouts_for_template'
 
@@ -13,7 +12,7 @@ module Benoit::Filters
       input_content = input.read
       layout = Benoit::Utils::FindsLayoutsForTemplate.first_layout(input_content)
       preserving_layout(layout, input_content) do |content|
-        render_markdown(:redcarpet, content)
+        render_markdown(:kramdown, content)
       end
     end
 

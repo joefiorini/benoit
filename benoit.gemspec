@@ -29,7 +29,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency "gli", "~> 2.5.3"
   s.add_dependency "sass", "~> 3.2.0"
   s.add_dependency "multi_json", "~> 1.5.0"
-  s.add_dependency "redcarpet", "~> 2.2.2"
+  # s.add_dependency "redcarpet", "~> 2.2.2"
   s.add_dependency "kramdown", "~> 1.1.0"
   s.add_dependency "compass", "~> 0.13.alpha"
   s.add_dependency "chunky_png", "~> 1.2.0"
@@ -38,18 +38,17 @@ spec = Gem::Specification.new do |s|
   s.add_dependency "rake-pipeline-web-filters", "~> 0.7.0"
   s.add_dependency "kronic", "~> 1.1.3"
   s.add_dependency "stamp", "~> 0.5.0"
-  s.add_dependency "thin", "~> 1.5.1"
 
 
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "turnip", "~> 1.1.0"
-  s.add_development_dependency "turnip-kanban"
-  s.add_development_dependency "aruba"
-  s.add_development_dependency "pry"
-  s.add_development_dependency "pry-nav"
-  s.add_development_dependency "pry-remote"
-  s.add_development_dependency "guard"
-  s.add_development_dependency "guard-rspec"
-  s.add_development_dependency "rb-fsevent", '~> 0.9'
+  # s.add_development_dependency "rspec"
+  # s.add_development_dependency "turnip", "~> 1.1.0"
+  # s.add_development_dependency "turnip-kanban"
+  # s.add_development_dependency "aruba"
+  # s.add_development_dependency "pry"
+  # s.add_development_dependency "pry-nav"
+  # s.add_development_dependency "pry-remote"
+  # s.add_development_dependency "guard"
+  # s.add_development_dependency "guard-rspec"
+  # s.add_development_dependency "rb-fsevent", '~> 0.9'
 
 end
