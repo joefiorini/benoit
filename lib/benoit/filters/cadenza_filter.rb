@@ -69,9 +69,9 @@ class Benoit::Filters::CadenzaFilter < Rake::Pipeline::Filter
 
       def additional_dependencies(input=nil)
           if input
-             page_layouts_for_input(input)
+            Dir.glob("**/*.html")
           else
-              []
+            []
           end
       end
 
